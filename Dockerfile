@@ -12,9 +12,6 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Create placeholder .env file for build (matches user's reference)
-RUN echo "GEMINI_API_KEY=PLACEHOLDER" > .env
-
 # Build the application
 RUN npm run build
 

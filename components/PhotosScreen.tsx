@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-// Image URLs
-const imageList = [
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-1.jpg?alt=media&token=27b2a5c4-ef99-4ed7-a20a-f1c692fdb36b',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-2.jpg?alt=media&token=be0635b0-98b5-4971-8d14-f82436fc9235',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-3.jpg?alt=media&token=2f1ec751-9451-4b5f-80f5-dfec74a4bd4d',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-4.jpg?alt=media&token=c8a4b9e5-4cb3-4e0b-ab23-852cf8c8252e',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-5.jpg?alt=media&token=9dca2fa8-33f6-4e3c-95df-19c194685c0d',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-6.jpg?alt=media&token=f7f747ed-31f6-452d-970d-8c6f89321f75',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-7.jpg?alt=media&token=962150cf-c215-4708-9302-18c2d0b6e40d',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-8.jpg?alt=media&token=730830f9-8ac9-45e0-90f0-ec5c468a48ab',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-9.jpg?alt=media&token=479a921c-10d2-462c-a90b-93cd59cfcf96',
-    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/studio-10.jpg?alt=media&token=fd9b48ac-03c9-40a3-8c10-aea8612c716b',
-];
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase';
 
 interface PhotosScreenProps {
     onClose: () => void;
@@ -21,8 +9,47 @@ interface PhotosScreenProps {
 
 const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
     const [animationClass, setAnimationClass] = useState('scale-90 opacity-0');
+    const [imageList, setImageList] = useState<string[]>([]);
+    const [thumbnailList, setThumbnailList] = useState<string[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const selectedImage = selectedIndex !== null ? imageList[selectedIndex] : null;
+
+    useEffect(() => {
+        const fetchImages = async () => {
+            const originalsRef = ref(storage, 'originals');
+            const thumbnailsRef = ref(storage, 'thumbnails');
+
+            try {
+                const [originalsRes, thumbnailsRes] = await Promise.all([
+                    listAll(originalsRef),
+                    listAll(thumbnailsRef)
+                ]);
+
+                const getSortedUrls = async (res: any) => {
+                    const urlPromises = res.items.map((itemRef: any) => getDownloadURL(itemRef));
+                    const urls = await Promise.all(urlPromises);
+                    return urls.sort((a: string, b: string) => {
+                        const aMatch = a.match(/studio-(\d+)/);
+                        const bMatch = b.match(/studio-(\d+)/);
+                        if (!aMatch || !bMatch) return 0;
+                        return parseInt(aMatch[1]) - parseInt(bMatch[1]);
+                    });
+                };
+
+                const [sortedOriginals, sortedThumbnails] = await Promise.all([
+                    getSortedUrls(originalsRes),
+                    getSortedUrls(thumbnailsRes)
+                ]);
+
+                setImageList(sortedOriginals);
+                setThumbnailList(sortedThumbnails);
+            } catch (error) {
+                console.error("Failed to fetch images:", error);
+            }
+        };
+
+        fetchImages();
+    }, []);
 
     // Swipe handling state
     const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -126,7 +153,7 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                 {/* Photo Grid */}
                 <div className="flex-1 overflow-y-auto bg-white">
                     <div className="grid grid-cols-3 gap-0.5 pb-20">
-                        {imageList.map((imgSrc, index) => (
+                        {thumbnailList.map((imgSrc, index) => (
                             <div
                                 key={index}
                                 className="aspect-square overflow-hidden cursor-pointer active:opacity-75"
@@ -140,9 +167,9 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                                 />
                             </div>
                         ))}
-                        {imageList.length === 0 && (
+                        {thumbnailList.length === 0 && (
                             <div className="col-span-3 text-center py-20 text-gray-400">
-                                No photos found in assets/images
+                                \ ㅇㅅㅇ /
                             </div>
                         )}
                     </div>
@@ -170,7 +197,6 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
             </div>
 
             {/* Full Screen Lightbox */}
-            {/* Full Screen Lightbox */}
             {selectedImage && (
                 <div
                     className="fixed inset-0 z-[60] bg-black flex flex-col items-center justify-center animate-fade-in"
@@ -190,7 +216,7 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                         Done
                     </button>
 
-                    <div className="flex-1 w-full flex items-center justify-center p-4 relative">
+                    <div className="flex-1 w-full flex items-center justify-center p-4 relative min-h-0 overflow-hidden">
                         {/* Navigation Arrows (Desktop) */}
                         <button
                             className="hidden md:block absolute left-4 text-white p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -220,7 +246,7 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     {/* Horizontal Thumbnail Strip */}
                     <div className="w-full h-20 bg-black/50 backdrop-blur-sm overflow-x-auto whitespace-nowrap px-4 py-2 flex items-center gap-2 no-scrollbar"
                         onClick={(e) => e.stopPropagation()}>
-                        {imageList.map((imgSrc, index) => (
+                        {thumbnailList.map((imgSrc, index) => (
                             <div
                                 key={index}
                                 id={`thumb-${index}`}
