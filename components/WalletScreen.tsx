@@ -18,14 +18,29 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
     const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            meta.setAttribute('content', '#FDFBFF');
+        }
+
         requestAnimationFrame(() => {
             setAnimationClass('scale-100 opacity-100');
         });
+
+        return () => {
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
+        };
     }, []);
 
     useEffect(() => {
         if (isClosing) {
             setAnimationClass('scale-90 opacity-0');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
         }
     }, [isClosing]);
 

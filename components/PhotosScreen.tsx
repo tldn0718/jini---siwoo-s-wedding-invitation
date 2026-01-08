@@ -107,14 +107,29 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
     const handleTouchEnd = () => onTouchEnd();
 
     useEffect(() => {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            meta.setAttribute('content', '#ffffff');
+        }
+
         requestAnimationFrame(() => {
             setAnimationClass('scale-100 opacity-100');
         });
+
+        return () => {
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
+        };
     }, []);
 
     useEffect(() => {
         if (isClosing) {
             setAnimationClass('scale-90 opacity-0');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
         }
     }, [isClosing]);
 

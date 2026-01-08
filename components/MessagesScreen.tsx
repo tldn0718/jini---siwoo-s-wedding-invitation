@@ -34,14 +34,29 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     const [showProfileModal, setShowProfileModal] = useState(false);
 
     useEffect(() => {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) {
+            meta.setAttribute('content', '#FFFEF2');
+        }
+
         requestAnimationFrame(() => {
             setAnimationClass('scale-100 opacity-100');
         });
+
+        return () => {
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
+        };
     }, []);
 
     useEffect(() => {
         if (isClosing) {
             setAnimationClass('scale-90 opacity-0');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) {
+                meta.setAttribute('content', '#fdf2f8');
+            }
         }
     }, [isClosing]);
 
@@ -282,12 +297,6 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 className={`relative w-full h-full md:max-w-md md:max-h-[85vh] bg-[#FFFEF2] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 ease-spring ${animationClass}`}
                 style={{ pointerEvents: 'auto', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
-                {/* Top Status Bar Fake */}
-                <div className="absolute top-0 left-0 right-0 h-8 bg-[#FFFEF2] z-30 flex justify-between px-6 items-end pb-1 pointer-events-none md:rounded-t-3xl text-black">
-                    <span className="text-black text-sm font-bold font-sans ml-2">5:57</span>
-                    <span className="text-black text-sm font-bold font-sans mr-2">46</span>
-                </div>
-
                 {/* Views */}
                 <div className="relative flex-1 bg-[#FFFEF2] overflow-hidden pt-8">
                     {currentView === 'LIST' && renderList()}
