@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from './components/Header';
 import Names from './components/Names';
 import DdayWidget from './components/DdayWidget';
 import AppIcon from './components/AppIcon';
@@ -82,7 +81,6 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800">
       <div className="container mx-auto max-w-sm p-4 flex flex-col min-h-screen relative">
-        <Header />
         <Names />
 
         <main className="grid grid-cols-2 gap-x-4 gap-y-4 mt-4 items-start">
