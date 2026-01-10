@@ -9,6 +9,7 @@ import WalletScreen from './components/WalletScreen';
 import PhotosScreen from './components/PhotosScreen';
 import MessagesScreen from './components/MessagesScreen';
 import MailScreen from './components/MailScreen';
+import InviteScreen from './components/InviteScreen';
 
 import mapsIcon from './assets/icons/maps.png';
 import photosIcon from './assets/icons/photos.png';
@@ -30,6 +31,8 @@ const App: React.FC = () => {
   const [isMessagesClosing, setIsMessagesClosing] = useState(false);
   const [isMailOpen, setIsMailOpen] = useState(false);
   const [isMailClosing, setIsMailClosing] = useState(false);
+  const [isInviteOpen, setIsInviteOpen] = useState(false);
+  const [isInviteClosing, setIsInviteClosing] = useState(false);
 
 
   const handleMapClick = () => {
@@ -92,6 +95,18 @@ const App: React.FC = () => {
     }, 300);
   };
 
+  const handleInviteClick = () => {
+    setIsInviteOpen(true);
+  };
+
+  const handleCloseInvite = () => {
+    setIsInviteClosing(true);
+    setTimeout(() => {
+      setIsInviteOpen(false);
+      setIsInviteClosing(false);
+    }, 300);
+  };
+
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800">
@@ -108,7 +123,7 @@ const App: React.FC = () => {
             <AppIcon imageUrl={mapsIcon} label="Maps" onClick={handleMapClick} />
             <AppIcon imageUrl={photosIcon} label="Photos" onClick={handlePhotosClick} />
             <AppIcon imageUrl={mailIcon} label="Mail" onClick={handleMailClick} />
-            <AppIcon imageUrl={calendarIcon} label="Calendar" />
+            <AppIcon imageUrl={calendarIcon} label="Invite" onClick={handleInviteClick} />
           </div>
 
           <div className="col-span-1 grid grid-cols-2 gap-y-6 gap-x-2">
@@ -145,6 +160,10 @@ const App: React.FC = () => {
 
         {isMailOpen && (
           <MailScreen onClose={handleCloseMail} isClosing={isMailClosing} />
+        )}
+
+        {isInviteOpen && (
+          <InviteScreen onClose={handleCloseInvite} isClosing={isInviteClosing} />
         )}
       </div>
     </div>
