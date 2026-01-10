@@ -134,7 +134,6 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
 
                 {/* Sky Background Decor */}
                 <div className="absolute top-8 inset-x-0 flex flex-col items-center gap-1 opacity-60 pointer-events-none z-0">
-                    <p className="font-neodgm text-[10px] text-black font-bold whitespace-nowrap">*:.。..。.:+·ﾟ·✽:.。..。.:+·ﾟ·✽:.。..。.:+·ﾟ·✽:.。..。.:+·ﾟ·</p>
                     <p className="font-neodgm text-[10px] text-black font-bold whitespace-nowrap mt-1">✩‧  ₊˚ *  .⋆  ·ฺ⁺˚    ᘏ⑅ᘏ ₊ * ⋆ ·ฺ.  ✩* . ⋆·ฺ  .  ⁺˚</p>
                     <p className="font-neodgm text-[10px] text-black font-bold whitespace-nowrap">‧₊˚.⋆·ฺ.‧₊˚.⋆‧₊˚.⋆⁺˚ ੈ‧˚૮꒰˵• ﻌ •˵꒱აੈ✩‧₊˚ੈ*:ﾟ*。.⋆·ฺᐝ.‧₊˚.⋆⁺˚</p>
                 </div>
