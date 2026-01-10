@@ -8,6 +8,7 @@ import MapScreen from './components/MapScreen';
 import WalletScreen from './components/WalletScreen';
 import PhotosScreen from './components/PhotosScreen';
 import MessagesScreen from './components/MessagesScreen';
+import MailScreen from './components/MailScreen';
 
 import mapsIcon from './assets/icons/maps.png';
 import photosIcon from './assets/icons/photos.png';
@@ -27,6 +28,8 @@ const App: React.FC = () => {
   const [isPhotosClosing, setIsPhotosClosing] = useState(false);
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const [isMessagesClosing, setIsMessagesClosing] = useState(false);
+  const [isMailOpen, setIsMailOpen] = useState(false);
+  const [isMailClosing, setIsMailClosing] = useState(false);
 
 
   const handleMapClick = () => {
@@ -77,6 +80,18 @@ const App: React.FC = () => {
     }, 300);
   };
 
+  const handleMailClick = () => {
+    setIsMailOpen(true);
+  };
+
+  const handleCloseMail = () => {
+    setIsMailClosing(true);
+    setTimeout(() => {
+      setIsMailOpen(false);
+      setIsMailClosing(false);
+    }, 300);
+  };
+
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800">
@@ -92,7 +107,7 @@ const App: React.FC = () => {
           <div className="col-span-1 grid grid-cols-2 gap-y-6 gap-x-2">
             <AppIcon imageUrl={mapsIcon} label="Maps" onClick={handleMapClick} />
             <AppIcon imageUrl={photosIcon} label="Photos" onClick={handlePhotosClick} />
-            <AppIcon imageUrl={mailIcon} label="Mail" />
+            <AppIcon imageUrl={mailIcon} label="Mail" onClick={handleMailClick} />
             <AppIcon imageUrl={calendarIcon} label="Calendar" />
           </div>
 
@@ -126,6 +141,10 @@ const App: React.FC = () => {
 
         {isMessagesOpen && (
           <MessagesScreen onClose={handleCloseMessages} isClosing={isMessagesClosing} />
+        )}
+
+        {isMailOpen && (
+          <MailScreen onClose={handleCloseMail} isClosing={isMailClosing} />
         )}
       </div>
     </div>
