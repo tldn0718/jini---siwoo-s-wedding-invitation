@@ -109,24 +109,24 @@ const App: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800">
-      <div className="container mx-auto max-w-sm p-4 flex flex-col min-h-screen relative">
+    <div className="fixed inset-0 h-[100dvh] w-screen bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800 overflow-hidden overscroll-none touch-none">
+      <div className="container mx-auto max-w-sm px-4 py-2 flex flex-col h-full relative">
         <Names />
 
-        <main className="grid grid-cols-2 gap-x-4 gap-y-4 mt-4 items-start">
+        <main className="grid grid-cols-2 gap-x-4 gap-y-2 mt-2 items-start flex-1 overflow-hidden">
           <div className="col-span-1 flex flex-col items-center">
             <DdayWidget />
-            <span className="mt-2 text-sm font-medium font-neodgm">Dday</span>
+            <span className="mt-1 text-xs font-medium font-neodgm">Dday</span>
           </div>
 
-          <div className="col-span-1 grid grid-cols-2 gap-y-6 gap-x-2">
+          <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2">
             <AppIcon imageUrl={mapsIcon} label="Maps" onClick={handleMapClick} />
             <AppIcon imageUrl={photosIcon} label="Photos" onClick={handlePhotosClick} />
             <AppIcon imageUrl={mailIcon} label="Mail" onClick={handleMailClick} />
             <AppIcon imageUrl={calendarIcon} label="Invite" onClick={handleInviteClick} />
           </div>
 
-          <div className="col-span-1 grid grid-cols-2 gap-y-6 gap-x-2">
+          <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2">
             <AppIcon imageUrl={walletIcon} label="Wallet" onClick={handleWalletClick} />
             <AppIcon imageUrl={messagesIcon} label="Messages" onClick={handleMessagesClick} />
             <AppIcon imageUrl={weatherIcon} label="Weather" />
@@ -135,7 +135,7 @@ const App: React.FC = () => {
 
           <div className="col-span-1 flex flex-col items-center">
             <CalendarWidget />
-            <span className="mt-2 text-sm font-medium font-neodgm">Calendar</span>
+            <span className="mt-1 text-xs font-medium font-neodgm">Calendar</span>
           </div>
 
         </main>
