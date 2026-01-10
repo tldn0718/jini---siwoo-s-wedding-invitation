@@ -28,6 +28,10 @@
     tailwind.config = {
       theme: {
         extend: {
+          screens: {
+            'tall': { 'raw': '(min-height: 700px)' },
+            'taller': { 'raw': '(min-height: 850px)' },
+          },
           fontFamily: {
             neodgm: ['NeoDunggeunmo', 'sans-serif'],
             ultra: ['Ultra', 'serif'],

@@ -107,64 +107,68 @@ const App: React.FC = () => {
     }, 300);
   };
 
-
   return (
-    <div className="fixed inset-0 h-[100dvh] w-screen bg-gradient-to-b from-pink-50 via-purple-50 to-white font-sans text-gray-800 overflow-hidden overscroll-none touch-none">
-      <div className="container mx-auto max-w-sm px-4 py-2 flex flex-col h-full relative">
-        <Names />
+    <div className="fixed inset-0 h-[100dvh] w-screen font-sans text-gray-800 overflow-hidden bg-gray-100 md:flex md:items-center md:justify-center">
+      {/* Phone Container: Full screen on mobile, Fixed size on desktop */}
+      <div className="w-full h-full md:w-[390px] md:h-[844px] md:max-h-[95vh] bg-gradient-to-b from-pink-50 via-purple-50 to-white md:rounded-[3rem] md:shadow-2xl md:border-[8px] md:border-white overflow-hidden flex flex-col relative shadow-2xl">
+        <div className="flex-1 flex flex-col px-4 py-2 h-full relative">
+          {/* Centered Content Group (Names + Main) */}
+          <div className="flex-1 flex flex-col justify-center w-full gap-y-4 tall:gap-y-8 taller:gap-y-12 md:gap-y-10">
+            <Names />
 
-        <main className="grid grid-cols-2 gap-x-4 gap-y-2 mt-2 items-start flex-1 overflow-hidden">
-          <div className="col-span-1 flex flex-col items-center">
-            <DdayWidget />
-            <span className="mt-1 text-xs font-medium font-neodgm">Dday</span>
+            <main className="grid grid-cols-2 gap-x-4 gap-y-2 md:gap-y-6 items-start overflow-hidden">
+              <div className="col-span-1 flex flex-col items-center self-end">
+                <DdayWidget />
+                <span className="mt-1 text-xs font-medium font-neodgm">Dday</span>
+              </div>
+
+              <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2 md:gap-y-6 self-end">
+                <AppIcon imageUrl={mapsIcon} label="Maps" onClick={handleMapClick} />
+                <AppIcon imageUrl={photosIcon} label="Photos" onClick={handlePhotosClick} />
+                <AppIcon imageUrl={mailIcon} label="Mail" onClick={handleMailClick} />
+                <AppIcon imageUrl={calendarIcon} label="Invite" onClick={handleInviteClick} />
+              </div>
+
+              <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2 md:gap-y-6">
+                <AppIcon imageUrl={walletIcon} label="Wallet" onClick={handleWalletClick} />
+                <AppIcon imageUrl={messagesIcon} label="Messages" onClick={handleMessagesClick} />
+                <AppIcon imageUrl={weatherIcon} label="Weather" />
+                <AppIcon imageUrl={newsIcon} label="News" onClick={() => window.open('https://www.notepet.co.kr/news/article/article_view/?idx=14720', '_blank')} />
+              </div>
+
+              <div className="col-span-1 flex flex-col items-center">
+                <CalendarWidget />
+                <span className="mt-1 text-xs font-medium font-neodgm">Calendar</span>
+              </div>
+            </main>
           </div>
 
-          <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2">
-            <AppIcon imageUrl={mapsIcon} label="Maps" onClick={handleMapClick} />
-            <AppIcon imageUrl={photosIcon} label="Photos" onClick={handlePhotosClick} />
-            <AppIcon imageUrl={mailIcon} label="Mail" onClick={handleMailClick} />
-            <AppIcon imageUrl={calendarIcon} label="Invite" onClick={handleInviteClick} />
-          </div>
+          <Dock />
 
-          <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2">
-            <AppIcon imageUrl={walletIcon} label="Wallet" onClick={handleWalletClick} />
-            <AppIcon imageUrl={messagesIcon} label="Messages" onClick={handleMessagesClick} />
-            <AppIcon imageUrl={weatherIcon} label="Weather" />
-            <AppIcon imageUrl={newsIcon} label="News" onClick={() => window.open('https://www.notepet.co.kr/news/article/article_view/?idx=14720', '_blank')} />
-          </div>
+          {isMapOpen && (
+            <MapScreen onClose={handleCloseMap} isClosing={isMapClosing} />
+          )}
 
-          <div className="col-span-1 flex flex-col items-center">
-            <CalendarWidget />
-            <span className="mt-1 text-xs font-medium font-neodgm">Calendar</span>
-          </div>
+          {isWalletOpen && (
+            <WalletScreen onClose={handleCloseWallet} isClosing={isWalletClosing} />
+          )}
 
-        </main>
+          {isPhotosOpen && (
+            <PhotosScreen onClose={handleClosePhotos} isClosing={isPhotosClosing} />
+          )}
 
-        <Dock />
+          {isMessagesOpen && (
+            <MessagesScreen onClose={handleCloseMessages} isClosing={isMessagesClosing} />
+          )}
 
-        {isMapOpen && (
-          <MapScreen onClose={handleCloseMap} isClosing={isMapClosing} />
-        )}
+          {isMailOpen && (
+            <MailScreen onClose={handleCloseMail} isClosing={isMailClosing} />
+          )}
 
-        {isWalletOpen && (
-          <WalletScreen onClose={handleCloseWallet} isClosing={isWalletClosing} />
-        )}
-
-        {isPhotosOpen && (
-          <PhotosScreen onClose={handleClosePhotos} isClosing={isPhotosClosing} />
-        )}
-
-        {isMessagesOpen && (
-          <MessagesScreen onClose={handleCloseMessages} isClosing={isMessagesClosing} />
-        )}
-
-        {isMailOpen && (
-          <MailScreen onClose={handleCloseMail} isClosing={isMailClosing} />
-        )}
-
-        {isInviteOpen && (
-          <InviteScreen onClose={handleCloseInvite} isClosing={isInviteClosing} />
-        )}
+          {isInviteOpen && (
+            <InviteScreen onClose={handleCloseInvite} isClosing={isInviteClosing} />
+          )}
+        </div>
       </div>
     </div>
   );

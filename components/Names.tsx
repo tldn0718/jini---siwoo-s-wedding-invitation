@@ -11,7 +11,7 @@ const Names: React.FC = () => {
   return (
     <div className="flex flex-col items-center my-2 font-mono shrink-0">
       <HeartDivider />
-      <h1 className="text-2xl font-extrabold tracking-widest text-black font-neodgm">
+      <h1 className="text-2xl md:text-3xl font-extrabold tracking-widest text-black font-neodgm">
         JINI ♥ SIWOO
       </h1>
       <HeartDivider />
