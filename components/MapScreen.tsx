@@ -11,6 +11,7 @@ interface MapScreenProps {
 
 const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
     const [animationClass, setAnimationClass] = useState('scale-90 opacity-0');
+    const [isMapLoaded, setIsMapLoaded] = useState(false);
 
     useEffect(() => {
         const meta = document.querySelector('meta[name="theme-color"]');
@@ -86,11 +87,20 @@ const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
                 {/* Content Scrollable Area */}
                 <div className="flex-1 overflow-y-auto p-3 space-y-4 bg-white">
                     {/* Map Image */}
-                    <div className="bg-white p-2 rounded-xl border-2 border-[#4a4036] shadow-sm">
+                    <div className="bg-white p-2 rounded-xl border-2 border-[#4a4036] shadow-sm min-h-[322px]"> {/* Added min-h to prevent collapse */}
+                        {!isMapLoaded && (
+                            <div className="w-full h-[306px] bg-[#fff0f5] rounded-lg flex flex-col items-center justify-center space-y-3 animate-pulse">
+                                <span className="text-4xl animate-bounce">🎀</span>
+                                <p className="font-neodgm text-[#ff69b4] text-lg tracking-widest animate-pulse">
+                                    Loading...
+                                </p>
+                            </div>
+                        )}
                         <img
                             src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/assets%2Fmap.png?alt=media&token=a40bbc1d-b249-49bc-922b-7e5ee9a36d27"
                             alt="Map of Venue"
-                            className="w-full h-auto rounded-lg"
+                            className={`w-full h-auto rounded-lg ${!isMapLoaded ? 'hidden' : 'block'}`}
+                            onLoad={() => setIsMapLoaded(true)}
                         />
                     </div>
 
