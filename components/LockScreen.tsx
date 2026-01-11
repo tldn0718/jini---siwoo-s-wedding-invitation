@@ -192,8 +192,11 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
                 >
                     {/* Remaining Track (Frosted Glass Effect for the UN-dragged area) */}
                     <div
-                        className="absolute top-0 bottom-0 right-0 bg-white/20 backdrop-blur-md transition-all duration-75 ease-linear pointer-events-none"
-                        style={{ left: `${sliderValue}%` }}
+                        className="absolute top-0 bottom-0 right-0 bg-white/20 backdrop-blur-md pointer-events-none"
+                        style={{
+                            left: `${sliderValue}%`,
+                            transition: isDragging ? 'none' : 'all 0.3s ease-out'
+                        }}
                     />
 
                     {/* Initial Text */}
