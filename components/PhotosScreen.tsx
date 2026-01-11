@@ -189,10 +189,23 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
     const minSwipeDistance = 50;
 
     const onTouchStart = (e: React.TouchEvent) => {
+        // Ignore multi-touch (pinch/zoom)
+        if (e.touches.length > 1) {
+            setTouchStart(null);
+            return;
+        }
         setTouchEnd(null);
         setTouchStart(e.targetTouches[0].clientX);
     };
-    const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX);
+    const onTouchMove = (e: React.TouchEvent) => {
+        // Cancel swipe if user starts pinching during move
+        if (e.touches.length > 1) {
+            setTouchStart(null);
+            setTouchEnd(null);
+            return;
+        }
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
     const onTouchEnd = () => {
         if (!touchStart || !touchEnd) return;
         const distance = touchStart - touchEnd;
