@@ -95,28 +95,6 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
                 alert('Link copied to clipboard!');
             } catch (err) {
                 console.error('Failed to copy text (Clipboard API): ', err);
-                // Explicit fallback for non-secure contexts (e.g. testing on local IP)
-                try {
-                    const textArea = document.createElement("textarea");
-                    textArea.value = window.location.href;
-                    // Ensure it's not visible but part of the DOM
-                    textArea.style.position = "fixed";
-                    textArea.style.left = "-9999px";
-                    textArea.style.top = "0";
-                    document.body.appendChild(textArea);
-                    textArea.focus();
-                    textArea.select();
-                    const successful = document.execCommand('copy');
-                    document.body.removeChild(textArea);
-
-                    if (successful) {
-                        alert('Link copied to clipboard!');
-                    } else {
-                        alert('Unable to copy link.');
-                    }
-                } catch (fallbackErr) {
-                    alert('Sharing not supported in this environment.');
-                }
             }
         }
     };
@@ -144,27 +122,28 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
                 </button>
 
                 {/* Sky Background Decor */}
-                <div className="absolute top-8 inset-x-0 flex flex-col items-center gap-1 opacity-60 pointer-events-none z-0">
-                    <p className="font-neodgm text-[10px] text-black font-bold whitespace-nowrap mt-1">✩‧  ₊˚ *  .⋆  ·ฺ⁺˚    ᘏ⑅ᘏ ₊ * ⋆ ·ฺ.  ✩* . ⋆·ฺ  .  ⁺˚</p>
-                    <p className="font-neodgm text-[10px] text-black font-bold whitespace-nowrap">‧₊˚.⋆·ฺ.‧₊˚.⋆‧₊˚.⋆⁺˚ ੈ‧˚૮꒰˵• ﻌ •˵꒱აੈ✩‧₊˚ੈ*:ﾟ*。.⋆·ฺᐝ.‧₊˚.⋆⁺˚</p>
+                <div className="absolute top-4 tall:top-8 inset-x-0 flex flex-col items-center gap-1 opacity-60 pointer-events-none z-0">
+                    <p className="text-[10px] text-black font-bold whitespace-nowrap mt-1">*:.｡..｡.:+・ﾟ・✽:.｡..｡.:+・ﾟ・✽:.｡..｡.:+・ﾟ・✽:.｡..｡.:+・ﾟ・</p>
+                    <p className="text-[10px] text-black font-bold whitespace-nowrap">✩‧  ₊˚ *  .⋆  ·ฺ⁺˚    ᘏ⑅ᘏ ₊ * ⋆ ·ฺ.  ✩* . ⋆·ฺ  .  ⁺˚</p>
+                    <p className="text-[10px] text-black font-bold whitespace-nowrap">‧₊˚.⋆·ฺ.‧₊˚.⋆‧₊˚.⋆⁺˚ ੈ‧˚૮꒰˵• ﻌ •˵꒱აੈ✩‧₊˚ੈ*:ﾟ*。.⋆·ฺᐝ.‧₊˚.⋆⁺˚</p>
                 </div>
 
                 {/* THE FLYER */}
-                <div className="relative w-[320px] bg-[#90cdf4] shadow-xl transform -rotate-2">
+                <div className="relative w-[320px] bg-[#90cdf4] shadow-xl transform -rotate-2 mb-12">
                     {/* Tape */}
                     <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10 w-32 rotate-2">
                         <img src={tapeImg} alt="Tape" className="w-full opacity-90 drop-shadow-md" />
                     </div>
 
-                    <div className="p-6 pb-24 text-center flex flex-col items-center">
-                        <h1 className="font-neodgm text-3xl mb-1 mt-4 text-black tracking-tighter">We're hiring!</h1>
-                        <h1 className="font-neodgm text-3xl mb-4 text-black tracking-tighter">Join our team.</h1>
+                    <div className="p-5 tall:p-6 pb-24 tall:pb-24 text-center flex flex-col items-center">
+                        <h1 className="font-neodgm text-3xl mb-1 mt-2 tall:mt-4 text-black tracking-tighter">We're hiring!</h1>
+                        <h1 className="font-neodgm text-3xl mb-2 tall:mb-4 text-black tracking-tighter">Join our team.</h1>
 
-                        <p className="font-neodgm text-xs text-gray-700 mb-6 tracking-tight">
+                        <p className="font-neodgm text-xs text-gray-700 mb-4 tall:mb-6 tracking-tight">
                             EVEN IF YOU'RE AN ALIEN, YOU'RE WELCOME!
                         </p>
 
-                        <div className="relative w-full h-40 flex items-center justify-center mb-8">
+                        <div className="relative w-full h-32 tall:h-40 flex items-center justify-center mb-6 tall:mb-8">
                             {/* Clouds & Diamonds */}
                             <div className="absolute top-0 right-4 flex flex-col items-center">
                                 <img src={cloud1Img} className="w-16 opacity-90 animate-pulse" alt="cloud" />
@@ -212,7 +191,7 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
                                 </div>
                                 {/* Cat Icons on outer tabs */}
                                 {i === 1 && (
-                                    <img src={cat1Img} alt="cat" className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-8 opacity-80" />
+                                    <img src={cat1Img} alt="cat" className="absolute bottom-8 tall:bottom-12 left-1/2 transform -translate-x-1/2 w-8 opacity-80" />
                                 )}
                                 {i === 5 && (
                                     <img src={cat2Img} alt="cat" className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-8 opacity-80" />
@@ -222,7 +201,7 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
                     </div>
                 </div>
 
-                <div className="absolute bottom-10 left-10 text-left font-neodgm text-xs">
+                <div className="absolute bottom-6 tall:bottom-10 left-10 text-left font-neodgm text-xs">
                     <p className="tracking-widest">║▌│█║▌│ █║▌│█│║▌║</p>
                     <p className="mt-1 text-[10px]">scanning code...</p>
                 </div>
