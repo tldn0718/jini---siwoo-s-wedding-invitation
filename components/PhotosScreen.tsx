@@ -459,13 +459,15 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     onTouchEnd={handleTouchEnd}
                 >
                     <button
-                        className="absolute top-8 right-6 text-white font-semibold text-lg hover:text-gray-300 z-50 drop-shadow-md"
+                        className="absolute top-8 right-6 text-white bg-black/50 backdrop-blur-sm p-1 rounded-full hover:bg-black/70 transition-colors z-50 shadow-lg"
                         onClick={(e) => {
                             e.stopPropagation();
                             setSelectedIndex(null);
                         }}
                     >
-                        x
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
 
                     <div className="flex-1 w-full flex items-center justify-center p-4 relative min-h-0 overflow-hidden">
