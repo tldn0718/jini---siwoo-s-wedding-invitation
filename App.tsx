@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import LockScreen from './components/LockScreen';
 import Names from './components/Names';
 import DdayWidget from './components/DdayWidget';
 import AppIcon from './components/AppIcon';
@@ -33,6 +34,13 @@ const App: React.FC = () => {
   const [isMailClosing, setIsMailClosing] = useState(false);
   const [isInviteOpen, setIsInviteOpen] = useState(false);
   const [isInviteClosing, setIsInviteClosing] = useState(false);
+
+  // Lock Screen State
+  const [isLocked, setIsLocked] = useState(true);
+
+  const handleUnlock = () => {
+    setIsLocked(false);
+  };
 
 
   const handleMapClick = () => {
@@ -111,6 +119,9 @@ const App: React.FC = () => {
     <div className="fixed inset-0 h-[100dvh] w-screen font-sans text-gray-800 overflow-hidden bg-gray-100 md:flex md:items-center md:justify-center">
       {/* Phone Container: Full screen on mobile, Fixed size on desktop */}
       <div className="w-full h-full md:w-[390px] md:h-[844px] md:max-h-[95vh] bg-gradient-to-b from-pink-50 via-purple-50 to-white md:rounded-[3rem] md:shadow-2xl md:border-[8px] md:border-white overflow-hidden flex flex-col relative shadow-2xl">
+        {/* Lock Screen Overlay */}
+        {isLocked && <LockScreen onUnlock={handleUnlock} />}
+
         <div className="flex-1 flex flex-col px-4 py-2 h-full relative">
           {/* Centered Content Group (Names + Main) */}
           <div className="flex-1 flex flex-col justify-center w-full gap-y-4 tall:gap-y-8 taller:gap-y-12 md:gap-y-10">
