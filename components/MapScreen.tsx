@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import mapImg from '../assets/map/map.png';
+
 import warningIcon from '../assets/map/warning.png';
 import downArrow from '../assets/map/downArrow.png';
 import appLinkBtn from '../assets/map/appLinkButton.png';
@@ -87,7 +87,11 @@ const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
                 <div className="flex-1 overflow-y-auto p-3 space-y-4 bg-white">
                     {/* Map Image */}
                     <div className="bg-white p-2 rounded-xl border-2 border-[#4a4036] shadow-sm">
-                        <img src={mapImg} alt="Map of Venue" className="w-full h-auto rounded-lg" />
+                        <img
+                            src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/assets%2Fmap.png?alt=media&token=a40bbc1d-b249-49bc-922b-7e5ee9a36d27"
+                            alt="Map of Venue"
+                            className="w-full h-auto rounded-lg"
+                        />
                     </div>
 
                     {/* Text Details */}
