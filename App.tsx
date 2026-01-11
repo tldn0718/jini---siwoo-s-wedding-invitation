@@ -143,7 +143,7 @@ const App: React.FC = () => {
               <div className="col-span-1 grid grid-cols-2 gap-y-4 gap-x-2 md:gap-y-6">
                 <AppIcon imageUrl={walletIcon} label="Wallet" onClick={handleWalletClick} />
                 <AppIcon imageUrl={messagesIcon} label="Messages" onClick={handleMessagesClick} />
-                <AppIcon imageUrl={weatherIcon} label="Weather" />
+                <AppIcon imageUrl={weatherIcon} label="Weather" onClick={() => window.open('https://www.google.com/search?q=관악구+날씨', '_blank')} />
                 <AppIcon imageUrl={newsIcon} label="News" onClick={() => window.open('https://www.notepet.co.kr/news/article/article_view/?idx=14720', '_blank')} />
               </div>
 
