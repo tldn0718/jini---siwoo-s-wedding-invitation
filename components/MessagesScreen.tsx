@@ -60,6 +60,23 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         }
     }, [isClosing]);
 
+    // Handle Escape Key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (showProfileModal) {
+                    setShowProfileModal(false);
+                } else if (currentView === 'CHAT_ROOM') {
+                    setCurrentView('LIST');
+                } else {
+                    onClose();
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose, currentView, showProfileModal]);
+
     // Data - Using the same data
     const profiles: MessageProfile[] = [
         {

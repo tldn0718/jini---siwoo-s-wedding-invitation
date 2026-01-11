@@ -249,21 +249,32 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
 
     // Keyboard Navigation
     useEffect(() => {
-        if (selectedIndex === null) return;
-
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'ArrowRight') {
-                if (selectedIndex < imageList.length - 1) setSelectedIndex(prev => (prev !== null ? prev + 1 : null));
-            } else if (e.key === 'ArrowLeft') {
-                if (selectedIndex > 0) setSelectedIndex(prev => (prev !== null ? prev - 1 : null));
-            } else if (e.key === 'Escape') {
-                setSelectedIndex(null);
+            if (selectedIndex !== null) {
+                // Lightbox Navigation
+                if (e.key === 'ArrowRight') {
+                    if (selectedIndex < imageList.length - 1) setSelectedIndex(prev => (prev !== null ? prev + 1 : null));
+                } else if (e.key === 'ArrowLeft') {
+                    if (selectedIndex > 0) setSelectedIndex(prev => (prev !== null ? prev - 1 : null));
+                } else if (e.key === 'Escape') {
+                    setSelectedIndex(null);
+                }
+            } else {
+                // App Navigation
+                if (e.key === 'Escape') {
+                    if (view === 'photos') {
+                        setView('albums');
+                        setSelectedAlbum(null);
+                    } else {
+                        onClose();
+                    }
+                }
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [selectedIndex, imageList.length]);
+    }, [selectedIndex, imageList.length, view, onClose]);
 
     const handleTouchStart = (e: React.TouchEvent) => onTouchStart(e);
     const handleTouchMove = (e: React.TouchEvent) => onTouchMove(e);

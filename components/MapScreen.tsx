@@ -41,6 +41,17 @@ const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
         }
     }, [isClosing]);
 
+    // Handle Escape Key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose]);
+
     const handleNaverMap = () => {
         window.open('https://naver.me/5N15n4Vu', '_blank');
     };

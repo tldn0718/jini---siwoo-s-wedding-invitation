@@ -44,6 +44,17 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
         }
     }, [isClosing]);
 
+    // Handle Escape Key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose]);
+
     const handleCopy = (text: string) => {
         navigator.clipboard.writeText(text.replace(/-/g, ''));
         setShowToast(true);

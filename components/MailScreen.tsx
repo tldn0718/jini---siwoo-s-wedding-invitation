@@ -55,6 +55,21 @@ const MailScreen: React.FC<MailScreenProps> = ({ onClose, isClosing }) => {
         }
     }, [isClosing]);
 
+    // Handle Escape Key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (view !== 'HOME') {
+                    setView('HOME');
+                } else {
+                    onClose();
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose, view]);
+
     // Firestore Subscription
     useEffect(() => {
         const q = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'));

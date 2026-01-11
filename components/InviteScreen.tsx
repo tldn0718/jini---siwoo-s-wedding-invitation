@@ -49,6 +49,17 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
         }
     }, [isClosing]);
 
+    // Handle Escape Key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                onClose();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [onClose]);
+
     // Share Handler
     const handleShare = async () => {
         let shareData: any = {
