@@ -68,13 +68,13 @@ const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
                 style={{ pointerEvents: 'auto', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
                 {/* Header */}
-                <div className="bg-[#f0f4ed] p-6 text-center border-b border-dashed border-[#dce4d5]">
-                    <h2 className="text-3xl sm:text-4xl font-bold font-neodgm text-[#4a4036] tracking-wider leading-tight">
+                <div className="relative bg-[#f0f4ed] py-6 px-12 text-center border-b border-dashed border-[#dce4d5]">
+                    <h2 className="text-2xl sm:text-4xl font-bold font-neodgm text-[#4a4036] tracking-wider leading-tight break-keep">
                         Map and Directions
                     </h2>
                     <button
                         onClick={onClose}
-                        className="absolute top-4 right-4 p-2 text-gray-500 hover:text-black transition-colors"
+                        className="absolute top-1/2 -translate-y-1/2 right-4 p-2 text-gray-500 hover:text-black transition-colors"
                         aria-label="Close"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
