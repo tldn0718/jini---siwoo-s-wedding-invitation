@@ -187,9 +187,15 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
             <div className="w-full max-w-sm px-8 z-10 mb-2 tall:mb-6 taller:mb-8">
                 <div
                     ref={sliderRef}
-                    className="relative h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center p-1 border border-white/30 overflow-hidden shadow-lg touch-none"
+                    className="relative h-16 bg-transparent rounded-full flex items-center p-1 border border-white/30 overflow-hidden shadow-lg touch-none"
                 // Added touch-none to prevent scrolling while dragging
                 >
+                    {/* Remaining Track (Frosted Glass Effect for the UN-dragged area) */}
+                    <div
+                        className="absolute top-0 bottom-0 right-0 bg-white/20 backdrop-blur-md transition-all duration-75 ease-linear pointer-events-none"
+                        style={{ left: `${sliderValue}%` }}
+                    />
+
                     {/* Initial Text */}
                     <div
                         className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -197,12 +203,6 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
                     >
                         <span className="font-neodgm text-white text-lg tracking-widest animate-pulse">밀어서 축하하기 ›</span>
                     </div>
-
-                    {/* Progress Track */}
-                    <div
-                        className="absolute left-0 top-0 bottom-0 bg-white/30 rounded-full transition-all duration-75 ease-linear pointer-events-none"
-                        style={{ width: `${sliderValue}%` }}
-                    />
 
                     {/* Thumb */}
                     <div
