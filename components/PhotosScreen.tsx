@@ -217,6 +217,23 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
         }
     }, [selectedIndex]);
 
+    // Prefetch Next/Prev Images
+    useEffect(() => {
+        if (selectedIndex === null || imageList.length === 0) return;
+
+        const indicesToPrefetch = [
+            selectedIndex + 1, // Next
+            selectedIndex - 1  // Prev
+        ];
+
+        indicesToPrefetch.forEach(index => {
+            if (index >= 0 && index < imageList.length) {
+                const img = new Image();
+                img.src = imageList[index];
+            }
+        });
+    }, [selectedIndex, imageList]);
+
     const handleTouchStart = (e: React.TouchEvent) => onTouchStart(e);
     const handleTouchMove = (e: React.TouchEvent) => onTouchMove(e);
     const handleTouchEnd = () => onTouchEnd();
