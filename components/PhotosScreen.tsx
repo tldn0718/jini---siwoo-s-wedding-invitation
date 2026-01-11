@@ -428,13 +428,13 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     onTouchEnd={handleTouchEnd}
                 >
                     <button
-                        className="absolute top-12 right-6 text-white font-semibold text-lg hover:text-gray-300 z-10"
+                        className="absolute top-8 right-6 text-white font-semibold text-lg hover:text-gray-300 z-50 drop-shadow-md"
                         onClick={(e) => {
                             e.stopPropagation();
                             setSelectedIndex(null);
                         }}
                     >
-                        Done
+                        x
                     </button>
 
                     <div className="flex-1 w-full flex items-center justify-center p-4 relative min-h-0 overflow-hidden">
