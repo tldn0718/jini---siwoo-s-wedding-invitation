@@ -13,6 +13,7 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
     const [isDragging, setIsDragging] = useState(false);
     const sliderRef = useRef<HTMLDivElement>(null);
     const [isUnlocking, setIsUnlocking] = useState(false);
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
 
     // Update time every second
     useEffect(() => {
@@ -113,11 +114,21 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
         }
     }, [isDragging]);
 
-
     return (
         <div
             className={`absolute inset-0 z-[100] w-full h-full overflow-hidden flex flex-col items-center pb-6 transition-opacity duration-500 bg-black ${isUnlocking ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
         >
+            {/* Loading Overlay - Dark Theme */}
+            <div className={`absolute inset-0 z-[200] bg-[#1a1a2e] flex flex-col items-center justify-center transition-opacity duration-1000 ${isImageLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                <div className="text-6xl mb-6 animate-bounce">🌙</div>
+                <p className="font-neodgm text-[#e6e6fa] text-xl tracking-widest animate-pulse">
+                    Dreaming...
+                </p>
+                <p className="font-neodgm text-[#a2a2d0] text-xs mt-2 tracking-wider opacity-70">
+                    Bringing the stars for you
+                </p>
+            </div>
+
             {/* Background Image */}
             <div className="absolute inset-0 z-[-1]">
                 <img
@@ -125,6 +136,7 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
                     alt="Lock Screen Background"
                     className="w-full h-full object-cover select-none"
                     draggable={false}
+                    onLoad={() => setIsImageLoaded(true)}
                 />
                 {/* Dark Overlay for text readability */}
                 <div className="absolute inset-0 bg-black/20" />
