@@ -114,7 +114,7 @@ const MailScreen: React.FC<MailScreenProps> = ({ onClose, isClosing }) => {
 
                 <img src={catImg} alt="Pixel Cat" className="w-32 h-auto pixelated mb-4" />
 
-                <h1 className="font-neodgm text-2xl font-bold tracking-widest mb-1">JINI & SIWOO'S</h1>
+                <h1 className="font-neodgm text-2xl font-bold tracking-widest mb-1">SIWOO & JINI'S</h1>
                 <h1 className="font-ultra text-4xl text-[#ff69b4] tracking-wider" style={{ textShadow: '2px 2px 0px #ff1493' }}>MAIL BOX</h1>
             </div>
 

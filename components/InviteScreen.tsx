@@ -52,7 +52,7 @@ const InviteScreen: React.FC<InviteScreenProps> = ({ onClose, isClosing }) => {
     // Share Handler
     const handleShare = async () => {
         let shareData: any = {
-            title: 'Jini & Siwoo Wedding',
+            title: 'Siwoo & Jini Wedding',
             text: 'We are getting married! Join our team at SNU E-Lounge.',
             url: window.location.href,
         };

@@ -116,6 +116,20 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4 bg-white flex flex-col justify-center">
 
+                    {/* Groom Section - Moved to top */}
+                    <div className="space-y-2 tall:space-y-4 transition-all">
+                        <div className="flex items-center justify-between px-2 mb-1 tall:mb-2 flex-row-reverse transition-all">
+                            <div className="bg-white px-4 py-2 tall:px-6 tall:py-3 rounded-full border-4 tall:border-8 border-[#E8DBF2] shadow-sm transition-all">
+                                <span className="font-neodgm text-[#BA84CE] text-lg tall:text-xl font-bold transition-all">신랑측 계좌번호</span>
+                            </div>
+                            <img src={heartImg} alt="Heart" className="w-14 h-10 tall:w-[4.5rem] tall:h-14 pixelated transition-all" />
+                        </div>
+                        <div className="border-t-2 border-[#A78FFC]">
+                            {groomAccounts.map(renderAccount)}
+                            <div className="border-b-2 border-[#A78FFC]"></div>
+                        </div>
+                    </div>
+
                     {/* Bride Section */}
                     <div className="space-y-2 tall:space-y-4 transition-all">
                         <div className="flex items-center justify-between px-2 mb-1 tall:mb-2 transition-all">
@@ -126,20 +140,6 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                         </div>
                         <div className="border-t-2 border-[#A78FFC]">
                             {brideAccounts.map(renderAccount)}
-                            <div className="border-b-2 border-[#A78FFC]"></div>
-                        </div>
-                    </div>
-
-                    {/* Groom Section */}
-                    <div className="space-y-2 tall:space-y-4 transition-all">
-                        <div className="flex items-center justify-between px-2 mb-1 tall:mb-2 flex-row-reverse transition-all">
-                            <div className="bg-white px-4 py-2 tall:px-6 tall:py-3 rounded-full border-4 tall:border-8 border-[#E8DBF2] shadow-sm transition-all">
-                                <span className="font-neodgm text-[#BA84CE] text-lg tall:text-xl font-bold transition-all">신랑측 계좌번호</span>
-                            </div>
-                            <img src={heartImg} alt="Heart" className="w-14 h-10 tall:w-[4.5rem] tall:h-14 pixelated transition-all" />
-                        </div>
-                        <div className="border-t-2 border-[#A78FFC]">
-                            {groomAccounts.map(renderAccount)}
                             <div className="border-b-2 border-[#A78FFC]"></div>
                         </div>
                     </div>

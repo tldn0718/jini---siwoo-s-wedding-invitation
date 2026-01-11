@@ -63,17 +63,6 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     // Data - Using the same data
     const profiles: MessageProfile[] = [
         {
-            id: 'jini',
-            name: '지니',
-            statusMsg: '결혼식에 많이 왔으면 좋겠다...',
-            lastMessage: '결혼식에 많이 왔으면 좋겠다...',
-            chatContent: [
-                { text: '안녕하세요! 신부 지니입니다.', time: '20:41' },
-                { text: '저희 결혼식에 와주셔서 정말 감사드려요!', time: '20:41' },
-                { text: '맛있는 식사와 함께 즐거운 시간 보내세요 :)', time: '20:41' }
-            ]
-        },
-        {
             id: 'siwoo',
             name: '시우',
             statusMsg: '오랜만에 학교 가겠네...',
@@ -82,6 +71,17 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 { text: '안녕하세요, 신랑 시우입니다.', time: '20:41' },
                 { text: '먼 길 와주셔서 감사합니다.', time: '20:41' },
                 { text: '행복하게 잘 살겠습니다!', time: '20:41' }
+            ]
+        },
+        {
+            id: 'jini',
+            name: '지니',
+            statusMsg: '결혼식에 많이 왔으면 좋겠다...',
+            lastMessage: '결혼식에 많이 왔으면 좋겠다...',
+            chatContent: [
+                { text: '안녕하세요! 신부 지니입니다.', time: '20:41' },
+                { text: '저희 결혼식에 와주셔서 정말 감사드려요!', time: '20:41' },
+                { text: '맛있는 식사와 함께 즐거운 시간 보내세요 :)', time: '20:41' }
             ]
         },
         { id: 'hyun', name: '현규', statusMsg: '우리딸 최고 이뿌네', lastMessage: '우리딸 최고 이뿌네', chatContent: [{ text: '축하해주셔서 감사합니다!', time: '20:41' }] },
