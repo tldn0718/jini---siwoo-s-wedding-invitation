@@ -66,7 +66,7 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
         <div
             key={info.name}
             onClick={() => handleCopy(info.account)}
-            className="flex items-center justify-between py-3 border-b border-[#A78FFC] last:border-b-2 cursor-pointer active:bg-purple-50 transition-colors"
+            className="flex items-center justify-between py-2 tall:py-3 border-b border-[#A78FFC] last:border-b-2 cursor-pointer active:bg-purple-50 transition-colors"
         >
             <span className="font-neodgm text-purple-900 text-base sm:text-lg w-20 whitespace-nowrap text-left pl-2 font-bold">{info.name}</span>
             <span className="font-neodgm text-[#A78FFC] flex-1 text-center text-sm sm:text-base tracking-widest font-bold">{info.account}</span>
@@ -89,15 +89,15 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                 style={{ pointerEvents: 'auto', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
                 {/* Header Title */}
-                <div className="pt-12 pb-6 text-center bg-[#FDFBFF]">
+                <div className="pt-4 pb-3 taller:pt-12 taller:pb-6 text-center bg-[#FDFBFF] transition-all duration-300 mb-2 taller:mb-4">
                     <div className="relative inline-block">
                         {/* Sparkle Left */}
                         <span className="absolute -left-10 top-1/2 -translate-y-1/2 text-[#D6B4FC] text-3xl">✦</span>
                         {/* Title Text */}
                         <h2 className="font-neodgm text-[#E0D4FC] text-shadow-sm leading-none select-none">
-                            <span className="text-2xl sm:text-3xl text-[#D6B4FC] block tracking-widest mb-2 font-bold">MONEY GIFT FOR</span>
-                            <span className="text-5xl sm:text-6xl text-[#E0D4FC] block tracking-wider drop-shadow-[4px_4px_0_#A78FFC] mb-2 font-bold">WEDDING</span>
-                            <span className="text-4xl sm:text-5xl text-[#E0D4FC] block tracking-wide drop-shadow-[3px_3px_0_#A78FFC] font-bold">CEREMONY</span>
+                            <span className="text-xl sm:text-2xl taller:text-3xl text-[#D6B4FC] block tracking-widest mb-1 tall:mb-2 font-bold transition-all">MONEY GIFT FOR</span>
+                            <span className="text-4xl sm:text-5xl taller:text-6xl text-[#E0D4FC] block tracking-wider drop-shadow-[4px_4px_0_#A78FFC] mb-1 tall:mb-2 font-bold transition-all">WEDDING</span>
+                            <span className="text-3xl sm:text-4xl taller:text-5xl text-[#E0D4FC] block tracking-wide drop-shadow-[3px_3px_0_#A78FFC] font-bold transition-all">CEREMONY</span>
                         </h2>
                         {/* Sparkle Right */}
                         <span className="absolute -right-10 top-1/2 -translate-y-1/2 text-[#D6B4FC] text-3xl">✦</span>
@@ -114,15 +114,15 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 overflow-y-auto px-4 pb-8 space-y-10 bg-white">
+                <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-4 bg-white flex flex-col justify-center">
 
                     {/* Bride Section */}
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between px-2 mb-2">
-                            <div className="bg-white px-6 py-3 rounded-full border-8 border-[#E8DBF2] shadow-sm">
-                                <span className="font-neodgm text-[#BA84CE] text-xl font-bold">신부측 계좌번호</span>
+                    <div className="space-y-2 tall:space-y-4 transition-all">
+                        <div className="flex items-center justify-between px-2 mb-1 tall:mb-2 transition-all">
+                            <div className="bg-white px-4 py-2 tall:px-6 tall:py-3 rounded-full border-4 tall:border-8 border-[#E8DBF2] shadow-sm transition-all">
+                                <span className="font-neodgm text-[#BA84CE] text-lg tall:text-xl font-bold transition-all">신부측 계좌번호</span>
                             </div>
-                            <img src={heartImg} alt="Heart" className="w-18 h-14 pixelated" />
+                            <img src={heartImg} alt="Heart" className="w-14 h-10 tall:w-[4.5rem] tall:h-14 pixelated transition-all" />
                         </div>
                         <div className="border-t-2 border-[#A78FFC]">
                             {brideAccounts.map(renderAccount)}
@@ -131,12 +131,12 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                     </div>
 
                     {/* Groom Section */}
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between px-2 mb-2 flex-row-reverse">
-                            <div className="bg-white px-6 py-3 rounded-full border-8 border-[#E8DBF2] shadow-sm">
-                                <span className="font-neodgm text-[#BA84CE] text-xl font-bold">신랑측 계좌번호</span>
+                    <div className="space-y-2 tall:space-y-4 transition-all">
+                        <div className="flex items-center justify-between px-2 mb-1 tall:mb-2 flex-row-reverse transition-all">
+                            <div className="bg-white px-4 py-2 tall:px-6 tall:py-3 rounded-full border-4 tall:border-8 border-[#E8DBF2] shadow-sm transition-all">
+                                <span className="font-neodgm text-[#BA84CE] text-lg tall:text-xl font-bold transition-all">신랑측 계좌번호</span>
                             </div>
-                            <img src={heartImg} alt="Heart" className="w-18 h-14 pixelated" />
+                            <img src={heartImg} alt="Heart" className="w-14 h-10 tall:w-[4.5rem] tall:h-14 pixelated transition-all" />
                         </div>
                         <div className="border-t-2 border-[#A78FFC]">
                             {groomAccounts.map(renderAccount)}
@@ -146,17 +146,15 @@ const WalletScreen: React.FC<WalletScreenProps> = ({ onClose, isClosing }) => {
                 </div>
 
                 {/* Footer */}
-                <div className="p-8 text-center bg-[#FDFBFF]">
-                    <div className="flex items-center justify-center gap-3 mb-4">
-                        <span className="text-[#D6B4FC] text-2xl">✦</span>
-                        <p className="text-sm text-gray-500 font-neodgm">계좌번호를 누르면 계좌번호가 복사됩니다!</p>
-                        <span className="text-[#D6B4FC] text-2xl">✦</span>
+                <div className="pb-2 taller:pb-8 pt-2 text-center bg-[#FDFBFF]">
+                    <p className="text-[11px] sm:text-xs text-gray-400 font-neodgm mb-1 tracking-tight">계좌번호를 누르면 계좌번호가 복사됩니다!</p>
+                    <div className="relative inline-block px-10">
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[#D6B4FC] text-2xl">✦</span>
+                        <p className="text-2xl sm:text-3xl font-bold font-neodgm text-[#D6B4FC] tracking-widest drop-shadow-[2px_2px_0_#A78FFC]">
+                            THANK YOU SO MUCH
+                        </p>
+                        <span className="absolute right-0 top-1/2 -translate-y-1/2 text-[#D6B4FC] text-2xl">✦</span>
                     </div>
-                    <p className="text-2xl sm:text-3xl font-bold font-neodgm text-[#D6B4FC] tracking-widest drop-shadow-[2px_2px_0_#A78FFC]">
-                        THANK YOU SO MUCH
-                    </p>
-                    {/* Checkerboard Pattern */}
-                    <img src={checkImg} alt="Check Pattern" className="w-full mt-6 opacity-30 select-none" />
                 </div>
 
                 {/* Toast Notification */}
