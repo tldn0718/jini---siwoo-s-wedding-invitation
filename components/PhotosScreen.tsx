@@ -7,11 +7,59 @@ interface PhotosScreenProps {
     isClosing: boolean;
 }
 
+// Internal Component for Random Skeleton Display
+const RandomSkeleton: React.FC<{ className?: string, iconSize?: string, index?: number }> = ({ className, iconSize = "text-2xl", index }) => {
+    const [style] = useState(() => {
+        const colors = ['bg-[#fff0f5]', 'bg-[#f0f9ff]', 'bg-[#fcf7de]', 'bg-[#f3e5f5]'];
+        const icons = ['📷', '💖', '✨', '🌸', '🎀'];
+
+        // Deterministic Randomness based on index if provided
+        if (typeof index === 'number') {
+            return {
+                color: colors[index % colors.length],
+                icon: icons[index % icons.length]
+            };
+        }
+
+        // Fallback to pure random
+        return {
+            color: colors[Math.floor(Math.random() * colors.length)],
+            icon: icons[Math.floor(Math.random() * icons.length)]
+        };
+    });
+
+    return (
+        <div className={`absolute inset-0 ${style.color} flex items-center justify-center ${className}`}>
+            <span className={`${iconSize} animate-bounce`}>{style.icon}</span>
+        </div>
+    );
+};
+
 interface Album {
     name: string;
     coverUrl: string;
     folderRef: any;
 }
+
+// Internal Component for Image with Loading State
+const ImageWithSkeleton: React.FC<{ src: string; alt: string; className?: string; onClick?: () => void; index?: number }> = ({ src, alt, className, onClick, index }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    return (
+        <div className={`relative overflow-hidden ${className}`} onClick={onClick}>
+            {!isLoaded && (
+                <RandomSkeleton index={index} />
+            )}
+            <img
+                src={src}
+                alt={alt}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${!isLoaded ? 'opacity-0' : 'opacity-100'}`}
+                loading="lazy"
+                onLoad={() => setIsLoaded(true)}
+            />
+        </div>
+    );
+};
 
 const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
     const [animationClass, setAnimationClass] = useState('scale-90 opacity-0');
@@ -28,6 +76,12 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
     // Viewer State
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const selectedImage = selectedIndex !== null ? imageList[selectedIndex] : null;
+    const [isLightboxImageLoaded, setIsLightboxImageLoaded] = useState(false); // For Lightbox loader
+
+    // Reset lightbox loader when image changes
+    useEffect(() => {
+        setIsLightboxImageLoaded(false);
+    }, [selectedIndex]);
 
     // Fetch Albums (Folders)
     useEffect(() => {
@@ -41,7 +95,6 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     let coverUrl = '';
                     if (folderRes.items.length > 0) {
                         // Use the first item as cover
-                        // Sort optimally if possible or just pick first
                         const firstItem = folderRes.items[0];
                         coverUrl = await getDownloadURL(firstItem);
                     }
@@ -74,9 +127,6 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
 
                 setAlbums(fetchedAlbums);
 
-                // If there are no folders but items in root, strictly handled? 
-                // Creating a "Root" album if needed is an option but sticking to folders for now.
-
             } catch (error) {
                 console.error("Failed to fetch albums:", error);
             }
@@ -101,21 +151,6 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                         listAll(originalsRef)
                     ]);
 
-                    const getSortedUrls = async (res: any) => {
-                        const urlPromises = res.items.map((itemRef: any) => getDownloadURL(itemRef));
-                        const urls = await Promise.all(urlPromises);
-                        // Sort by numeric suffix if present (e.g. image-1.jpg)
-                        return urls.sort((a: string, b: string) => {
-                            // Attempt to sort by filename number if possible using regex
-                            // Since we only have URLs here, it's safer to sort by itemRef name 
-                            // But we mapped to URLs. Let's rely on standard URL sort or improve if needed.
-                            // For now standard sort:
-                            return a.localeCompare(b);
-                        });
-                    };
-
-                    // Improved sorting via item names would be better but keeping simple for now
-                    // To do perfectly: sort items by name, then get URLs.
                     const getSortedUrlsByRef = async (res: any) => {
                         const items = res.items;
                         items.sort((a: any, b: any) => {
@@ -133,14 +168,9 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
 
 
                     const sortedThumbnails = await getSortedUrlsByRef(thumbnailsRes);
-
-                    // For originals, we assume same naming structure/order
-                    // Careful: if files are missing in one, order might mismatch. 
-                    // ideally we match by name. 
                     const sortedOriginals = await getSortedUrlsByRef(originalsRes);
 
                     setThumbnailList(sortedThumbnails);
-                    // If originals count mismatches, fallback to thumbnails for safety or just use what we have
                     setImageList(sortedOriginals.length > 0 ? sortedOriginals : sortedThumbnails);
 
                 } catch (e) {
@@ -274,40 +304,44 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     {/* ALBUMS Grid */}
                     {view === 'albums' && (
                         <div className="grid grid-cols-2 gap-4 p-4">
-                            {albums.map((album) => (
-                                <div
-                                    key={album.name}
-                                    className="flex flex-col cursor-pointer group"
-                                    onClick={() => handleAlbumClick(album.name)}
-                                >
-                                    <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden mb-2 shadow-sm relative">
-                                        {album.coverUrl ? (
-                                            <img
-                                                src={album.coverUrl}
-                                                alt={album.name}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                loading="lazy"
-                                            />
-                                        ) : (
-                                            <div className="flex items-center justify-center h-full text-gray-300">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                            </div>
-                                        )}
-                                        {/* Gradient Overlay for style */}
-                                        <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                            {albums.length > 0 ? (
+                                albums.map((album, index) => (
+                                    <div
+                                        key={album.name}
+                                        className="flex flex-col cursor-pointer group"
+                                        onClick={() => handleAlbumClick(album.name)}
+                                    >
+                                        <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden mb-2 shadow-sm relative">
+                                            {album.coverUrl ? (
+                                                <ImageWithSkeleton
+                                                    src={album.coverUrl}
+                                                    alt={album.name}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                    index={index}
+                                                />
+                                            ) : (
+                                                <div className="flex items-center justify-center h-full text-gray-300">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                </div>
+                                            )}
+                                            {/* Gradient Overlay for style */}
+                                            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                                        </div>
+                                        <h3 className="font-semibold text-gray-900 truncate">{album.name}</h3>
                                     </div>
-                                    <h3 className="font-semibold text-gray-900 truncate">{album.name}</h3>
-                                    <span className="text-xs text-gray-500">
-                                        {/* Count could be fetched but expensive, maybe just placeholder or nothing */}
-                                    </span>
-                                </div>
-                            ))}
-                            {albums.length === 0 && (
-                                <div className="col-span-2 text-center py-20 text-gray-400">
-                                    Loading Albums...
-                                </div>
+                                ))
+                            ) : (
+
+                                Array.from({ length: 6 }).map((_, i) => (
+                                    <div key={i} className="flex flex-col">
+                                        <div className="aspect-square rounded-xl overflow-hidden mb-2 shadow-sm bg-gray-50 relative animate-pulse">
+                                            <RandomSkeleton index={i} />
+                                        </div>
+                                        <div className="h-5 bg-gray-100 rounded w-2/3 animate-pulse" />
+                                    </div>
+                                ))
                             )}
                         </div>
                     )}
@@ -315,37 +349,33 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     {/* PHOTOS Grid */}
                     {view === 'photos' && (
                         <div className="grid grid-cols-3 gap-0.5 pb-20">
-                            {thumbnailList.map((imgSrc, index) => (
-                                <div
-                                    key={index}
-                                    className="aspect-square overflow-hidden cursor-pointer active:opacity-75"
-                                    onClick={() => setSelectedIndex(index)}
-                                >
-                                    <img
+                            {thumbnailList.length > 0 ? (
+                                thumbnailList.map((imgSrc, index) => (
+                                    <ImageWithSkeleton
+                                        key={index}
                                         src={imgSrc}
                                         alt={`Photo ${index + 1}`}
-                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                                        loading="lazy"
+                                        className="aspect-square cursor-pointer active:opacity-75"
+                                        onClick={() => setSelectedIndex(index)}
+                                        index={index}
                                     />
-                                </div>
-                            ))}
-                            {thumbnailList.length === 0 && (
-                                <div className="col-span-3 text-center py-20 text-gray-400">
-                                    Loading photos...
-                                </div>
+                                ))
+                            ) : (
+                                // Skeleton Grid for Photos
+                                Array.from({ length: 15 }).map((_, i) => (
+                                    <div key={i} className="aspect-square relative overflow-hidden animate-pulse">
+                                        <RandomSkeleton iconSize="text-xl" index={i} />
+                                    </div>
+                                ))
                             )}
                         </div>
                     )}
 
                 </div>
 
-                {/* IOS Bottom Bar Imitation */}
+                {/* iOS Bottom Bar Imitation */}
                 <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-200 py-3 flex justify-around items-center text-gray-400 text-xs font-medium z-20">
-                    <div
-                        className={`flex flex-col items-center space-y-1 cursor-pointer ${view === 'photos' && !selectedAlbum ? 'text-blue-500' : ''}`}
-                    // Mock functionality: strictly speaking library might just mean 'all photos'
-                    // but keeping UI simple for now
-                    >
+                    <div className={`flex flex-col items-center space-y-1 cursor-pointer ${view === 'photos' && !selectedAlbum ? 'text-blue-500' : ''}`}>
                         <div className="w-6 h-5 border-2 border-gray-300 rounded-sm"></div>
                         <span>Library</span>
                     </div>
@@ -391,6 +421,16 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                     </button>
 
                     <div className="flex-1 w-full flex items-center justify-center p-4 relative min-h-0 overflow-hidden">
+                        {/* Lightbox Loader - Cute Version */}
+                        {!isLightboxImageLoaded && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center z-0">
+                                <span className="text-6xl animate-bounce mb-4">✨</span>
+                                <p className="font-neodgm text-white text-lg tracking-widest animate-pulse">
+                                    Loading...
+                                </p>
+                            </div>
+                        )}
+
                         {/* Navigation Arrows (Desktop) */}
                         <button
                             className="hidden md:block absolute left-4 text-white p-2 hover:bg-white/10 rounded-full transition-colors"
@@ -412,8 +452,9 @@ const PhotosScreen: React.FC<PhotosScreenProps> = ({ onClose, isClosing }) => {
                         <img
                             src={selectedImage}
                             alt="Full screen"
-                            className="max-w-full max-h-full object-contain shadow-2xl transition-transform duration-300"
+                            className={`max-w-full max-h-full object-contain shadow-2xl transition-opacity duration-300 relative z-10 ${!isLightboxImageLoaded ? 'opacity-0' : 'opacity-100'}`}
                             onClick={(e) => e.stopPropagation()}
+                            onLoad={() => setIsLightboxImageLoaded(true)}
                         />
                     </div>
 
