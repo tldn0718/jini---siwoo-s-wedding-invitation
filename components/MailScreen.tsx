@@ -97,6 +97,17 @@ const MailScreen: React.FC<MailScreenProps> = ({ onClose, isClosing }) => {
             <div className="absolute top-20 right-10 text-[#e6e6fa] text-4xl opacity-50">✦</div>
             <div className="absolute bottom-20 left-5 text-[#e6e6fa] text-5xl opacity-50">★</div>
 
+            {/* Close/Home Button */}
+            <button
+                onClick={onClose}
+                className="absolute top-6 right-6 z-20 text-[#ffb6c1] hover:text-[#ff69b4] transition-colors active:scale-90"
+                aria-label="Close Mail App"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-8 h-8">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
             <div className="z-10 flex flex-col items-center animate-fade-in-up">
                 <h2 className="font-neodgm text-lg mb-2">You're invited to</h2>
                 <img src={heartsImg} alt="Hearts" className="h-8 pixelated mb-4 animate-bounce" />
