@@ -101,8 +101,25 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 { text: '맛있는 식사와 함께 즐거운 시간 보내세요 :)', time: '20:41' }
             ]
         },
-        { id: 'hyun', name: '현규', statusMsg: '우리딸 최고 이뿌네', lastMessage: '우리딸 최고 이뿌네', chatContent: [{ text: '축하해주셔서 감사합니다!', time: '20:41' }] },
-        { id: 'seok', name: '석봉', statusMsg: '우리 큰공주 모델이네', lastMessage: '우리 큰공주 모델이네', chatContent: [{ text: '감사합니다!', time: '20:41' }] },
+        {
+            id: 'hyun',
+            name: '현규',
+            statusMsg: '우리딸 최고 이뿌네',
+            lastMessage: '오셔서 두 사람의 앞날을 축복해 주시면 큰 영광이겠습니다.',
+            chatContent: [
+                { text: '저희 자녀가 소중한 인연을 만나 새로운 가정을 이루게 되었습니다.', time: '20:41' },
+                { text: '오셔서 두 사람의 앞날을 축복해 주시면 큰 영광이겠습니다.', time: '20:41' }
+            ]
+        },
+        {
+            id: 'seok',
+            name: '석봉',
+            statusMsg: '우리 큰공주 모델이네',
+            lastMessage: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다',
+            chatContent: [
+                { text: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다', time: '20:41' }
+            ]
+        },
         { id: 'mom', name: '시우맘', statusMsg: '우리 아들 화이팅', lastMessage: '우리 아들 화이팅', chatContent: [{ text: '감사합니다!', time: '20:41' }] },
         { id: 'dad', name: '시우파파', statusMsg: '우리 아들 최고다!', lastMessage: '우리 아들 최고다!', chatContent: [{ text: '감사합니다!', time: '20:41' }] },
     ];
@@ -122,8 +139,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     const renderList = () => (
         <div className="flex-1 overflow-y-auto bg-[#FFFEF2]">
             {/* Header */}
-            <div className="relative pt-6 px-4 pb-4 bg-[#FFFEF2]">
-                <button onClick={onClose} className="absolute left-4 top-6">
+            <div className="relative pt-2 px-4 pb-4 bg-[#FFFEF2]">
+                <button onClick={onClose} className="absolute left-4 top-3">
                     <div className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-white">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -139,20 +156,20 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     <span className="text-lg font-bold text-black">대화</span>
                 </div>
                 <div
-                    className="flex items-center px-4 py-3 active:bg-[#f0f0e0] transition-colors cursor-pointer"
+                    className="flex items-center px-4 py-2 tall:py-3 taller:py-4 active:bg-[#f0f0e0] transition-colors cursor-pointer"
                     onClick={() => handleRowClick(profiles[0])}
                 >
                     <div
-                        className="relative w-14 h-14 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
+                        className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                         onClick={(e) => handleProfileClick(e, profiles[0])}
                     >
                         <LandscapeAvatar className="w-full h-full" />
                     </div>
-                    <div className="ml-4 flex-1 min-w-0">
+                    <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-1">
-                            <span className="text-lg font-bold text-black truncate">{profiles[0].name}</span>
+                            <span className="text-lg tall:text-xl taller:text-2xl font-bold text-black truncate">{profiles[0].name}</span>
                         </div>
-                        <p className="text-gray-500 text-sm truncate pr-4">{profiles[0].lastMessage}</p>
+                        <p className="text-gray-500 text-sm tall:text-base taller:text-lg truncate pr-4">{profiles[0].lastMessage}</p>
                     </div>
                 </div>
             </div>
@@ -165,20 +182,20 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 {profiles.slice(1).map(profile => (
                     <div
                         key={profile.id}
-                        className="flex items-center px-4 py-3 active:bg-[#f0f0e0] transition-colors cursor-pointer"
+                        className="flex items-center px-4 py-2 tall:py-3 taller:py-4 active:bg-[#f0f0e0] transition-colors cursor-pointer"
                         onClick={() => handleRowClick(profile)}
                     >
                         <div
-                            className="relative w-14 h-14 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
+                            className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                             onClick={(e) => handleProfileClick(e, profile)}
                         >
                             <LandscapeAvatar className="w-full h-full" />
                         </div>
-                        <div className="ml-4 flex-1 min-w-0">
+                        <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                             <div className="flex justify-between items-baseline mb-1">
-                                <span className="text-lg font-bold text-black truncate">{profile.name}</span>
+                                <span className="text-lg tall:text-xl taller:text-2xl font-bold text-black truncate">{profile.name}</span>
                             </div>
-                            <p className="text-gray-500 text-sm truncate pr-4">{profile.lastMessage}</p>
+                            <p className="text-gray-500 text-sm tall:text-base taller:text-lg truncate pr-4">{profile.lastMessage}</p>
                         </div>
                     </div>
                 ))}
