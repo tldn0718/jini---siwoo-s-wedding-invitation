@@ -231,7 +231,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         return (
             <div className="absolute inset-0 bg-[#FFFEF2] flex flex-col z-20 animate-slide-in-right">
                 {/* Header */}
-                <div className="bg-[#FFFEF2] px-4 py-3 flex items-center justify-between sticky top-0 md:rounded-t-3xl border-b border-black/5">
+                <div className="bg-[#FFFEF2] px-4 py-3 flex items-center justify-between sticky top-0 md:rounded-t-3xl border-b border-black/5 z-30">
                     <button onClick={() => setCurrentView('LIST')} className="focus:outline-none">
                         <div className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center bg-white">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
