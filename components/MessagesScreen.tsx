@@ -83,27 +83,51 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'siwoo',
             name: '시우',
             statusMsg: '오랜만에 학교 가겠네...',
-            lastMessage: '오랜만에 학교 가겠네...',
+            lastMessage: '여러분들의 축복 속에서 앞으로도 매일매일을 행복하고 성실하게 지내겠습니다! 예식날 뵙겠습니다! 👋',
             chatContent: [
-                { text: '안녕하세요, 신랑 시우입니다.', time: '20:41' },
-                { text: '먼 길 와주셔서 감사합니다.', time: '20:41' },
-                { text: '행복하게 잘 살겠습니다!', time: '20:41' }
+                { text: '안녕하세요, 신랑 시우입니다. 결혼식의 자리를 빌려 오랜 인연인 여러분들을 다시 뵙게되어 정말로 기쁩니다.', time: '20:41' },
+                { text: '10년 전에 만난 소중한 인연이 시간이 흘러 어느덧 이 자리까지 이어지게 되었습니다.', time: '20:41' },
+                { text: '저도 이 사랑스럽고 현명한 아내와 함께할 제 인생의 2막이 설레고 기대됩니다.', time: '20:41' },
+                { text: '평소에 표현은 잘 하지 못했지만, 이 글을 보고 계신 여러분 한 분 한 분은 제게 참 소중하고 감사한 분들입니다.', time: '20:41' },
+                { text: '저희의 새로운 시작에 여러분이 곁에서 함께해 주셨으면 하는 마음을 담아 진심 어린 초대를 드립니다.', time: '20:41' },
+                { text: '여러분들의 축복 속에서 앞으로도 매일매일을 행복하고 성실하게 지내겠습니다! 예식날 뵙겠습니다! 👋', time: '20:41' }
             ]
         },
         {
             id: 'jini',
             name: '지니',
             statusMsg: '결혼식에 많이 왔으면 좋겠다...',
-            lastMessage: '결혼식에 많이 왔으면 좋겠다...',
+            lastMessage: '한분한분 제 눈에 담기 위해 최선을 다하겠습니다.',
             chatContent: [
-                { text: '안녕하세요! 신부 지니입니다.', time: '20:41' },
-                { text: '저희 결혼식에 와주셔서 정말 감사드려요!', time: '20:41' },
-                { text: '맛있는 식사와 함께 즐거운 시간 보내세요 :)', time: '20:41' }
+                { text: '지난 일 년 동안 남자친구와 함께 결혼식을 준비했는데요. 곧 이 프로젝트가 끝이라니...! 신기합니다.', time: '20:41' },
+                { text: '처음 결혼 준비를 시작했을 때만해도 결혼식 자체에 큰 의미를 두지 않았어요. 그러나 결혼을 준비하며 생각이 점차 바뀌었어요. 결혼식이 부부가 되기 위한 통과의례인 이유가 있구나합니다. 돌이켜 보니 준비 과정 자체가 소중한 추억이 됐어요.', time: '20:41' },
+                { text: '곁에서 물심양면 도와주신 가족과 따뜻한 조언을 아끼지 않으셨던 지인분들 덕에 결승선 가까이 온 것 같아요.', time: '20:41' },
+                { text: '지금 이 메시지를 읽고 계신 모든 분들께 진심으로 감사드립니다. (꾸벅)', time: '20:41' },
+                { text: '다가올 26년 3월 28일은 제게 죽을 때까지 두고두고 꺼내 볼 기억이 되겠죠? 부끄럽지만, 여러분께서 결혼식에 함께해주신다면, 더할나위 없이 행복할 것 같아요. 한분한분 제 눈에 담기 위해 최선을 다하겠습니다.', time: '20:41' }
             ]
         },
         {
-            id: 'hyun',
-            name: '현규',
+            id: 'siwooMom',
+            name: '시우맘',
+            statusMsg: '우리 아들 화이팅',
+            lastMessage: '따뜻한 축하와 격려 부탁합니다',
+            chatContent: [
+                { text: '어느새 자라 결혼을 앞둔 우리 아이가 서로의 반쪽을 만나 새로운 인생을 시작하려 합니다', time: '20:41' },
+                { text: '따뜻한 축하와 격려 부탁합니다', time: '20:41' }
+            ]
+        },
+        {
+            id: 'siwooDad',
+            name: '시우파파',
+            statusMsg: '우리 아들 최고다!',
+            lastMessage: '두사람이 함께하는 새로운 시작에 귀한 발걸음으로 축복해 주시면 감사하겠습니다',
+            chatContent: [
+                { text: '두사람이 함께하는 새로운 시작에 귀한 발걸음으로 축복해 주시면 감사하겠습니다', time: '20:41' }
+            ]
+        },
+        {
+            id: 'jiniMom',
+            name: '지니엄마',
             statusMsg: '우리딸 최고 이뿌네',
             lastMessage: '오셔서 두 사람의 앞날을 축복해 주시면 큰 영광이겠습니다.',
             chatContent: [
@@ -112,16 +136,14 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             ]
         },
         {
-            id: 'seok',
-            name: '석봉',
+            id: 'jiniDad',
+            name: '지니파파',
             statusMsg: '우리 큰공주 모델이네',
             lastMessage: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다',
             chatContent: [
                 { text: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다', time: '20:41' }
             ]
         },
-        { id: 'mom', name: '시우맘', statusMsg: '우리 아들 화이팅', lastMessage: '우리 아들 화이팅', chatContent: [{ text: '감사합니다!', time: '20:41' }] },
-        { id: 'dad', name: '시우파파', statusMsg: '우리 아들 최고다!', lastMessage: '우리 아들 최고다!', chatContent: [{ text: '감사합니다!', time: '20:41' }] },
     ];
 
     const handleProfileClick = (e: React.MouseEvent, profile: MessageProfile) => {
@@ -137,7 +159,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
     // Render List
     const renderList = () => (
-        <div className="flex-1 overflow-y-auto bg-[#FFFEF2]">
+        <div className="flex-1 overflow-y-auto bg-[#FFFEF2] min-h-0">
             {/* Header */}
             <div className="relative pt-2 px-4 pb-4 bg-[#FFFEF2]">
                 <button onClick={onClose} className="absolute left-4 top-3">
@@ -332,7 +354,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 style={{ pointerEvents: 'auto', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
                 {/* Views */}
-                <div className="relative flex-1 bg-[#FFFEF2] overflow-hidden pt-8">
+                <div className="relative flex-1 flex flex-col bg-[#FFFEF2] overflow-hidden pt-4">
                     {currentView === 'LIST' && renderList()}
                     {currentView === 'CHAT_ROOM' && renderChatRoom()}
                 </div>
