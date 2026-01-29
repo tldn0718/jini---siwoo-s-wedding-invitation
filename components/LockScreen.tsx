@@ -132,7 +132,7 @@ const LockScreen: React.FC<LockScreenProps> = ({ onUnlock }) => {
             {/* Background Image */}
             <div className="absolute inset-0 z-[-1]">
                 <img
-                    src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/originals%2Fsnap%2F10.jpg?alt=media&token=e25cb88c-1478-486b-b35e-7a3a9990bf1f"
+                    src="https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/originals%2Fsnap%2F1.jpg?alt=media&token=727aef75-2d6d-4a1a-b4dd-825720f8be0d"
                     alt="Lock Screen Background"
                     className="w-full h-full object-cover select-none"
                     draggable={false}
