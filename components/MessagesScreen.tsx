@@ -17,6 +17,7 @@ interface MessageProfile {
     name: string;
     statusMsg?: string;
     avatarUrl?: string; // If present, use img, else use LandscapeAvatar
+    thumbnailUrl?: string; // For list view
     lastMessage?: string;
     chatContent?: { text: string; time: string; isMe?: boolean }[];
 }
@@ -129,6 +130,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'jiniMom',
             name: '지니맘',
             statusMsg: '우리딸 최고 이뿌네',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_mom_orig.jpg?alt=media&token=8cc06218-f752-48d2-a791-9d549ad8e529',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_mom_thumb.jpg?alt=media&token=26314190-b72d-4529-8880-80922c324f12',
             lastMessage: '오셔서 두 사람의 앞날을 축복해 주시면 큰 영광이겠습니다.',
             chatContent: [
                 { text: '저희 자녀가 소중한 인연을 만나 새로운 가정을 이루게 되었습니다.', time: '20:41' },
@@ -139,6 +142,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'jiniDad',
             name: '지니파파',
             statusMsg: '우리 큰공주 모델이네',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_papa_orig.jpg?alt=media&token=8ef654b2-e819-47c7-9b47-a2adb5dae981',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_papa_thumb.jpg?alt=media&token=db3862a0-3595-446f-a673-7ea59eb7c7bd',
             lastMessage: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다',
             chatContent: [
                 { text: '귀한 시간 내어 결혼식에 참석해주시면 더없이 감사하겠습니다', time: '20:41' }
@@ -185,7 +190,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                         className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                         onClick={(e) => handleProfileClick(e, profiles[0])}
                     >
-                        <LandscapeAvatar className="w-full h-full" />
+                        {profiles[0].thumbnailUrl || profiles[0].avatarUrl ? (
+                            <img src={profiles[0].thumbnailUrl || profiles[0].avatarUrl} alt={profiles[0].name} className="w-full h-full object-cover" />
+                        ) : (
+                            <LandscapeAvatar className="w-full h-full" />
+                        )}
                     </div>
                     <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-1">
@@ -211,7 +220,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                             className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                             onClick={(e) => handleProfileClick(e, profile)}
                         >
-                            <LandscapeAvatar className="w-full h-full" />
+                            {profile.thumbnailUrl || profile.avatarUrl ? (
+                                <img src={profile.thumbnailUrl || profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
+                            ) : (
+                                <LandscapeAvatar className="w-full h-full" />
+                            )}
                         </div>
                         <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                             <div className="flex justify-between items-baseline mb-1">
@@ -251,7 +264,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     {/* Profile Info in Chat */}
                     <div className="flex flex-col items-center mb-8 mt-4">
                         <div className="w-20 h-20 rounded-full border-2 border-black overflow-hidden mb-2">
-                            <LandscapeAvatar className="w-full h-full" />
+                            {selectedProfile.avatarUrl ? (
+                                <img src={selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
+                            ) : (
+                                <LandscapeAvatar className="w-full h-full" />
+                            )}
                         </div>
                         <h2 className="text-xl font-bold">{selectedProfile.name}</h2>
                         <p className="text-gray-500 text-sm">iMessage</p>
@@ -260,7 +277,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     {selectedProfile.chatContent?.map((msg, idx) => (
                         <div key={idx} className="flex gap-3 mb-4 items-end">
                             <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex-shrink-0">
-                                <LandscapeAvatar className="w-full h-full" />
+                                {selectedProfile.thumbnailUrl || selectedProfile.avatarUrl ? (
+                                    <img src={selectedProfile.thumbnailUrl || selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <LandscapeAvatar className="w-full h-full" />
+                                )}
                             </div>
                             <div className="flex flex-col items-start max-w-[70%]">
                                 <span className="text-xs text-gray-800 font-bold mb-1 ml-1">{selectedProfile.name}</span>
@@ -305,7 +326,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
                     {/* Top Half Image */}
                     <div className="w-full h-48 bg-[#D0F0FF] relative overflow-hidden border-b-2 border-black/5">
-                        <LandscapeAvatar className="w-full h-full scale-150 translate-y-10" />
+                        {selectedProfile.avatarUrl ? (
+                            <img src={selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
+                        ) : (
+                            <LandscapeAvatar className="w-full h-full scale-150 translate-y-10" />
+                        )}
                     </div>
 
                     {/* Content */}
