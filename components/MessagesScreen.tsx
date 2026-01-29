@@ -127,7 +127,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         },
         {
             id: 'jiniMom',
-            name: '지니엄마',
+            name: '지니맘',
             statusMsg: '우리딸 최고 이뿌네',
             lastMessage: '오셔서 두 사람의 앞날을 축복해 주시면 큰 영광이겠습니다.',
             chatContent: [
