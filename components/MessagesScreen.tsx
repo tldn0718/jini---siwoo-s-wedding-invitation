@@ -109,7 +109,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         },
         {
             id: 'siwooMom',
-            name: '시우맘',
+            name: '백윤정',
             statusMsg: '우리 아들 화이팅',
             lastMessage: '따뜻한 축하와 격려 부탁합니다',
             chatContent: [
@@ -119,7 +119,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         },
         {
             id: 'siwooDad',
-            name: '시우파파',
+            name: '박성동',
             statusMsg: '우리 아들 최고다!',
             lastMessage: '두사람이 함께하는 새로운 시작에 귀한 발걸음으로 축복해 주시면 감사하겠습니다',
             chatContent: [
@@ -128,7 +128,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         },
         {
             id: 'jiniMom',
-            name: '지니맘',
+            name: '김현규',
             statusMsg: '우리딸 최고 이뿌네',
             avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_mom_orig.jpg?alt=media&token=8cc06218-f752-48d2-a791-9d549ad8e529',
             thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_mom_thumb.jpg?alt=media&token=26314190-b72d-4529-8880-80922c324f12',
@@ -140,7 +140,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         },
         {
             id: 'jiniDad',
-            name: '지니파파',
+            name: '최석봉',
             statusMsg: '우리 큰공주 모델이네',
             avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_papa_orig.jpg?alt=media&token=8ef654b2-e819-47c7-9b47-a2adb5dae981',
             thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_papa_thumb.jpg?alt=media&token=db3862a0-3595-446f-a673-7ea59eb7c7bd',
