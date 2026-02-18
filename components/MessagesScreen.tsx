@@ -11,6 +11,30 @@ const LandscapeAvatar: React.FC<{ className?: string }> = ({ className }) => (
     </div>
 );
 
+// Profile Avatar Component (Handles Image Loading & Fallback)
+const ProfileAvatar: React.FC<{
+    src?: string;
+    alt: string;
+    className?: string; // Applied to wrapper
+    landscapeClassName?: string; // Applied to LandscapeAvatar
+}> = ({ src, alt, className, landscapeClassName }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    return (
+        <div className={`relative w-full h-full ${className || ''}`}>
+            <LandscapeAvatar className={`absolute inset-0 w-full h-full ${landscapeClassName || ''}`} />
+            {src && (
+                <img
+                    src={src}
+                    alt={alt}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setIsLoaded(true)}
+                />
+            )}
+        </div>
+    );
+};
+
 // Types
 interface MessageProfile {
     id: string;
@@ -198,11 +222,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                         className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                         onClick={(e) => handleProfileClick(e, profiles[0])}
                     >
-                        {profiles[0].thumbnailUrl || profiles[0].avatarUrl ? (
-                            <img src={profiles[0].thumbnailUrl || profiles[0].avatarUrl} alt={profiles[0].name} className="w-full h-full object-cover" />
-                        ) : (
-                            <LandscapeAvatar className="w-full h-full" />
-                        )}
+                        <ProfileAvatar
+                            src={profiles[0].thumbnailUrl || profiles[0].avatarUrl}
+                            alt={profiles[0].name}
+                        />
                     </div>
                     <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                         <div className="flex justify-between items-baseline mb-1">
@@ -228,11 +251,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                             className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
                             onClick={(e) => handleProfileClick(e, profile)}
                         >
-                            {profile.thumbnailUrl || profile.avatarUrl ? (
-                                <img src={profile.thumbnailUrl || profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
-                            ) : (
-                                <LandscapeAvatar className="w-full h-full" />
-                            )}
+                            <ProfileAvatar
+                                src={profile.thumbnailUrl || profile.avatarUrl}
+                                alt={profile.name}
+                            />
                         </div>
                         <div className="ml-4 tall:ml-5 flex-1 min-w-0">
                             <div className="flex justify-between items-baseline mb-1">
@@ -272,11 +294,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     {/* Profile Info in Chat */}
                     <div className="flex flex-col items-center mb-8 mt-4">
                         <div className="w-20 h-20 rounded-full border-2 border-black overflow-hidden mb-2">
-                            {selectedProfile.avatarUrl ? (
-                                <img src={selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
-                            ) : (
-                                <LandscapeAvatar className="w-full h-full" />
-                            )}
+                            <ProfileAvatar
+                                src={selectedProfile.avatarUrl}
+                                alt={selectedProfile.name}
+                            />
                         </div>
                         <h2 className="text-xl font-bold">{selectedProfile.name}</h2>
                         <p className="text-gray-500 text-sm">iMessage</p>
@@ -285,11 +306,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     {selectedProfile.chatContent?.map((msg, idx) => (
                         <div key={idx} className="flex gap-3 mb-4 items-end">
                             <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex-shrink-0">
-                                {selectedProfile.thumbnailUrl || selectedProfile.avatarUrl ? (
-                                    <img src={selectedProfile.thumbnailUrl || selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <LandscapeAvatar className="w-full h-full" />
-                                )}
+                                <ProfileAvatar
+                                    src={selectedProfile.thumbnailUrl || selectedProfile.avatarUrl}
+                                    alt={selectedProfile.name}
+                                />
                             </div>
                             <div className="flex flex-col items-start max-w-[70%]">
                                 <span className="text-xs text-gray-800 font-bold mb-1 ml-1">{selectedProfile.name}</span>
@@ -334,11 +354,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
                     {/* Top Half Image */}
                     <div className="w-full h-48 bg-[#D0F0FF] relative overflow-hidden border-b-2 border-black/5">
-                        {selectedProfile.avatarUrl ? (
-                            <img src={selectedProfile.avatarUrl} alt={selectedProfile.name} className="w-full h-full object-cover" />
-                        ) : (
-                            <LandscapeAvatar className="w-full h-full scale-150 translate-y-10" />
-                        )}
+                        <ProfileAvatar
+                            src={selectedProfile.avatarUrl}
+                            alt={selectedProfile.name}
+                            landscapeClassName="scale-150 translate-y-10"
+                        />
                     </div>
 
                     {/* Content */}
