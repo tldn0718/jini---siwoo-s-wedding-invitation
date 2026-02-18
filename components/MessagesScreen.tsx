@@ -292,7 +292,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-6">
                     {/* Profile Info in Chat */}
-                    <div className="flex flex-col items-center mb-8 mt-4">
+                    <div
+                        className="flex flex-col items-center mb-8 mt-4 cursor-pointer active:scale-95 transition-transform"
+                        onClick={() => setShowProfileModal(true)}
+                    >
                         <div className="w-20 h-20 rounded-full border-2 border-black overflow-hidden mb-2">
                             <ProfileAvatar
                                 src={selectedProfile.avatarUrl}
@@ -305,7 +308,10 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
                     {selectedProfile.chatContent?.map((msg, idx) => (
                         <div key={idx} className="flex gap-3 mb-4 items-end">
-                            <div className="w-10 h-10 rounded-full border border-black overflow-hidden flex-shrink-0">
+                            <div
+                                className="w-10 h-10 rounded-full border border-black overflow-hidden flex-shrink-0 cursor-pointer active:scale-90 transition-transform"
+                                onClick={() => setShowProfileModal(true)}
+                            >
                                 <ProfileAvatar
                                     src={selectedProfile.thumbnailUrl || selectedProfile.avatarUrl}
                                     alt={selectedProfile.name}
