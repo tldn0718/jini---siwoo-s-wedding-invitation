@@ -84,6 +84,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'siwoo',
             name: '시우',
             statusMsg: '오랜만에 학교 가겠네...',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_orig.jpg?alt=media&token=2b3e3a00-6550-4d34-9035-76d857ecd70e',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_orig.jpg?alt=media&token=2b3e3a00-6550-4d34-9035-76d857ecd70e',
             lastMessage: '여러분들의 축복 속에서 앞으로도 매일매일을 행복하고 성실하게 지내겠습니다! 예식날 뵙겠습니다! 👋',
             chatContent: [
                 { text: '안녕하세요, 신랑 시우입니다. 결혼식의 자리를 빌려 오랜 인연인 여러분들을 다시 뵙게되어 정말로 기쁩니다.', time: '20:41' },
@@ -98,6 +100,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'jini',
             name: '지니',
             statusMsg: '결혼식에 많이 왔으면 좋겠다...',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_orig.jpg?alt=media&token=53b4047d-ea62-4463-9409-e69fa6c84e9e',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_orig.jpg?alt=media&token=53b4047d-ea62-4463-9409-e69fa6c84e9e',
             lastMessage: '한분한분 제 눈에 담기 위해 최선을 다하겠습니다.',
             chatContent: [
                 { text: '지난 일 년 동안 남자친구와 함께 결혼식을 준비했는데요. 곧 이 프로젝트가 끝이라니...! 신기합니다.', time: '20:41' },
@@ -111,6 +115,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'siwooMom',
             name: '백윤정',
             statusMsg: '우리 아들 화이팅',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_mom_orig.JPG?alt=media&token=52ae069b-789e-4ac3-8df6-ddaa38f604b3',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_mom_thumb.jpg?alt=media&token=9f0a271f-3b97-497f-9f47-13a4adbbe86d',
             lastMessage: '따뜻한 축하와 격려 부탁합니다',
             chatContent: [
                 { text: '어느새 자라 결혼을 앞둔 우리 아이가 서로의 반쪽을 만나 새로운 인생을 시작하려 합니다', time: '20:41' },
@@ -121,6 +127,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             id: 'siwooDad',
             name: '박성동',
             statusMsg: '우리 아들 최고다!',
+            avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_papa_orig.jpg?alt=media&token=b291dd72-2cdf-456c-8311-11436e8f1cbd',
+            thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fsiwoo_papa_thumb.jpg?alt=media&token=f194429e-e47b-4e21-8f9b-f46b7ba772a4',
             lastMessage: '두사람이 함께하는 새로운 시작에 귀한 발걸음으로 축복해 주시면 감사하겠습니다',
             chatContent: [
                 { text: '두사람이 함께하는 새로운 시작에 귀한 발걸음으로 축복해 주시면 감사하겠습니다', time: '20:41' }
