@@ -123,7 +123,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         {
             id: 'jini',
             name: '지니',
-            statusMsg: '결혼식에 많이 왔으면 좋겠다...',
+            statusMsg: '저 시집 가용 ><',
             avatarUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_orig.jpg?alt=media&token=53b4047d-ea62-4463-9409-e69fa6c84e9e',
             thumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/profiles%2Fjini_orig.jpg?alt=media&token=53b4047d-ea62-4463-9409-e69fa6c84e9e',
             lastMessage: '한분한분 제 눈에 담기 위해 최선을 다하겠습니다.',
