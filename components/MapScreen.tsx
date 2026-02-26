@@ -157,6 +157,27 @@ const MapScreen: React.FC<MapScreenProps> = ({ onClose, isClosing }) => {
                                 이라운지 주소, 2시간 무료주차 가능합니다. (주차권발급)
                             </p>
                         </div>
+
+                        {/* Chartered Bus */}
+                        <div className="space-y-1">
+                            <h3 className="font-neodgm text-base font-bold text-[#333]">신랑 측 전세버스 이용 시</h3>
+                            <div className="text-xs font-neodgm space-y-1 text-[#555] leading-relaxed">
+                                <p>부산 사상역 오전 7시 30분 / 마산역 오전 8시 30분</p>
+                            </div>
+                        </div>
+
+                        {/* Train */}
+                        <div className="space-y-1">
+                            <h3 className="font-neodgm text-base font-bold text-[#333]">기차 이용시</h3>
+                            <div className="text-xs font-neodgm space-y-1 text-[#555] leading-relaxed">
+                                <p>
+                                    <span className="font-bold text-gray-700">광명역 정차</span> 광명역 하차 → 8507번 버스 탑승 → 관악산입구 하차 → 5511번, 5516번 버스 탑승 → <span className="font-medium text-black">제2공학관</span> 하차
+                                </p>
+                                <p>
+                                    <span className="font-bold text-gray-700">광명역 미정차</span> 서울역 하차 → 서울역 환승센터 탑승 → 관악경찰서 하차 → 5513번 버스 승차 → <span className="font-medium text-black">제2공학관</span> 하차
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
