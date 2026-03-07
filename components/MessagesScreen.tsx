@@ -81,7 +81,7 @@ const ProposalLetterView: React.FC<{ letterContent: string; onClose: () => void 
                 <pre className="whitespace-pre-wrap font-letter text-lg leading-loose text-gray-800">{letterContent}</pre>
             </div>
             <div className="p-4 border-t border-black/10">
-                <button className="w-full py-3 rounded-full border-2 border-black bg-[#EEFF6E] font-bold active:bg-[#E5F55D]" onClick={onClose}>닫기</button>
+                <button className="w-full py-3 rounded-full border-2 border-black bg-[#EEFF6E] font-bold active:bg-[#E5F55D]" onClick={onClose}>🩷</button>
             </div>
         </div>
     );
@@ -146,6 +146,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     const [showProfileModal, setShowProfileModal] = useState(false);
 
     const [showProposalQuiz, setShowProposalQuiz] = useState(false);
+    const [showProposalConfirm, setShowProposalConfirm] = useState(false);
     const [showProposalLetter, setShowProposalLetter] = useState(false);
     const [proposalPassword, setProposalPassword] = useState('');
     const [proposalError, setProposalError] = useState('');
@@ -187,12 +188,17 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         const answerLower = answer;
         const correct = PROPOSAL_ANSWER.trim();
         if (answerLower !== correct) {
-            setProposalError("역시나 기억력이 Short하군요! 그날은 지니의 생일이었습니당");
+            setProposalError("역시나 기억력이 Short하군요! 그날은 11년 전, 지니의 생일이었습니당");
             return;
         }
         setShowProposalQuiz(false);
         setProposalPassword('');
         setProposalError('');
+        setShowProposalConfirm(true);
+    }, [proposalPassword]);
+
+    const handleProposalConfirm = useCallback(() => {
+        setShowProposalConfirm(false);
         setShowProposalLetter(true);
         try {
             const audio = new Audio(PROPOSAL_MUSIC_URL);
@@ -202,7 +208,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         } catch {
             // no-op
         }
-    }, [proposalPassword]);
+    }, []);
+
+    const handleProposalConfirmCancel = useCallback(() => {
+        setShowProposalConfirm(false);
+    }, []);
 
     useEffect(() => {
         const preload = new Audio(PROPOSAL_MUSIC_URL);
@@ -240,6 +250,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
             if (e.key === 'Escape') {
                 if (showProposalLetter) {
                     closeProposalLetter();
+                } else if (showProposalConfirm) {
+                    handleProposalConfirmCancel();
                 } else if (showProposalQuiz) {
                     closeProposalQuiz();
                 } else if (showProfileModal) {
@@ -253,7 +265,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [onClose, currentView, showProfileModal, showProposalQuiz, showProposalLetter, closeProposalLetter, closeProposalQuiz]);
+    }, [onClose, currentView, showProfileModal, showProposalQuiz, showProposalConfirm, showProposalLetter, closeProposalLetter, closeProposalQuiz, handleProposalConfirmCancel]);
 
     // Data - Using the same data
     const profiles: MessageProfile[] = [
@@ -625,6 +637,35 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         );
     };
 
+    const renderProposalConfirmModal = () => {
+        if (!showProposalConfirm) return null;
+        return (
+            <div className="absolute inset-0 z-[65] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={handleProposalConfirmCancel}>
+                <div className="bg-[#FFFEF2] w-[90%] max-w-sm rounded-3xl p-6 shadow-2xl border-2 border-black/10" onClick={e => e.stopPropagation()}>
+                    <p className="text-sm text-gray-700 text-center mb-6 leading-relaxed">
+                        이 메시지를 확인하면 시우와 평생을 함께하는 것을 승낙한다는 의미입니다.
+                        <br />
+                        확인하시겠습니까?
+                    </p>
+                    <div className="flex gap-2">
+                        <button
+                            className="flex-1 py-3 rounded-full border-2 border-black bg-white font-bold active:bg-gray-100"
+                            onClick={handleProposalConfirmCancel}
+                        >
+                            취소
+                        </button>
+                        <button
+                            className="flex-1 py-3 rounded-full border-2 border-black bg-[#EEFF6E] font-bold active:bg-[#E5F55D]"
+                            onClick={handleProposalConfirm}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     const renderProposalQuizModal = () => {
         if (!showProposalQuiz) return null;
         return (
@@ -684,6 +725,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
                 {renderProfileModal()}
                 {renderProposalQuizModal()}
+                {renderProposalConfirmModal()}
                 {showProposalLetter && <ProposalLetterView letterContent={PROPOSAL_LETTER} onClose={closeProposalLetter} />}
             </div>
         </div>
