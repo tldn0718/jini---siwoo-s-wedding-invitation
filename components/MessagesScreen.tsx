@@ -1,4 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+
+// --- Proposal Easter Egg ---
+const PROPOSAL_QUIZ = '우리의 1일은? (YYYYMMDD)';
+const PROPOSAL_ANSWER = '20150123';
+const PROPOSAL_MUSIC_URL =
+    'https://firebasestorage.googleapis.com/v0/b/gen-lang-client-0630377070.firebasestorage.app/o/across_the_universe.mp3?alt=media&token=c4f3046c-9ad2-4995-a6cb-797f04f43d51';
+const PROPOSAL_LETTER = `Dear my love,
+
+이 편지는 오직 너만을 위해 써요.
+
+처음 널 만났을 때부터 알았어. 이 사람과 함께하고 싶다고.
+그날부터 매일이 특별해졌고, 오늘이 있어.
+
+우리가 함께한 시간이 어느새 이렇게 차곡차곡 쌓였네요.
+처음엔 그저 마주 보고 웃는 게 좋았는데, 
+시간이 지날수록 당신이 내 하루에 없어서는 안 될 
+당연하고도 가장 소중한 사람이 되었다는 걸 깨달아요.
+
+가끔은 평범하게 마주 앉아 밥을 먹고, 
+시시콜콜한 이야기를 나누며 나란히 발맞춰 걷는 
+그 당연한 일상들이 저에게는 얼마나 큰 위안이었는지 모릅니다.
+제가 흔들리거나 지칠 때면 묵묵히 제 편이 되어주었고, 
+기쁜 일에는 누구보다 환하게 웃으며 제 일처럼 기뻐해 주었죠. 
+
+당신의 그 맑은 눈빛과 다정한 말투, 
+그리고 세상을 바라보는 따뜻한 마음을 곁에서 지켜보면서 
+저 역시 매일 조금씩 더 좋은 사람이 되고 싶다고 다짐했습니다.
+당신이 제게 주었던 굳건한 믿음 덕분에 
+저는 더 나은 내일을 꿈꿀 수 있었어요.
+
+이제는 당신 없는 나의 내일은 상상할 수가 없습니다.
+거창하고 화려한 약속으로 모든 걸 포장하기보다는, 
+매일 아침 눈을 떴을 때 가장 먼저 서로에게 
+'잘 잤어?'라고 다정하게 안부를 묻는 일상을 평생 함께하고 싶어요. 
+
+살아가다 보면 때로는 뜻하지 않은 어려움을 마주할 날도 오겠지만, 
+우리가 맞잡은 두 손을 놓지 않는다면 
+어떤 길이라도 든든하게, 또 웃으며 걸어갈 수 있을 거라 확신합니다.
+나의 가장 빛나는 시절을 함께해 준 당신과, 
+앞으로 다가올 나의 모든 계절도 함께 맞이하고 싶습니다.
+
+언제나 당신이 편히 기댈 수 있는 쉼터가 되겠습니다. 
+저의 남은 평생을 걸어, 당신을 누구보다 아끼고 존중하겠습니다.
+
+긴 글이라서 천천히 읽어줘요.
+
+나와 결혼해 줄래요?
+
+사랑해.
+Forever yours.`;
+
+const SCROLL_DURATION_MS = 120000;
+function letterScrollEase(t: number): number {
+    if (t <= 0) return 0;
+    if (t >= 1) return 1;
+    return 1 - (1 - t) * (1 - t);
+}
+const ProposalLetterView: React.FC<{ letterContent: string; onClose: () => void }> = ({ letterContent, onClose }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const startRef = useRef<number>(0);
+    const rafRef = useRef<number>(0);
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        startRef.current = performance.now();
+        const animate = (now: number) => {
+            const elapsed = now - startRef.current;
+            const t = Math.min(elapsed / SCROLL_DURATION_MS, 1);
+            const eased = letterScrollEase(t);
+            const maxScroll = el.scrollHeight - el.clientHeight;
+            if (maxScroll > 0) el.scrollTop = eased * maxScroll;
+            if (t < 1) rafRef.current = requestAnimationFrame(animate);
+        };
+        rafRef.current = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(rafRef.current);
+    }, []);
+    return (
+        <div className="absolute inset-0 z-[70] bg-[#FFFEF2] flex flex-col">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto overflow-x-hidden px-6 py-8">
+                <pre className="whitespace-pre-wrap font-letter text-lg leading-loose text-gray-800">{letterContent}</pre>
+            </div>
+            <div className="p-4 border-t border-black/10">
+                <button className="w-full py-3 rounded-full border-2 border-black bg-[#EEFF6E] font-bold active:bg-[#E5F55D]" onClick={onClose}>닫기</button>
+            </div>
+        </div>
+    );
+};
 
 // Landscape Avatar Component (SVG)
 const LandscapeAvatar: React.FC<{ className?: string }> = ({ className }) => (
@@ -58,16 +145,78 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     const [selectedProfile, setSelectedProfile] = useState<MessageProfile | null>(null);
     const [showProfileModal, setShowProfileModal] = useState(false);
 
+    const [showProposalQuiz, setShowProposalQuiz] = useState(false);
+    const [showProposalLetter, setShowProposalLetter] = useState(false);
+    const [proposalPassword, setProposalPassword] = useState('');
+    const [proposalError, setProposalError] = useState('');
+    const proposalLetterRef = useRef<HTMLDivElement>(null);
+    const proposalAudioRef = useRef<HTMLAudioElement | null>(null);
+    const SWIPE_ACTION_WIDTH = 100;
+    const [siwooRowSwipeOffset, setSiwooRowSwipeOffset] = useState(0);
+    const swipeStartX = useRef(0);
+    const swipeStartOffset = useRef(0);
+    const swipeCurrentOffset = useRef(0);
+    const hiddenMessageButtonRef = useRef<HTMLButtonElement>(null);
+
+    const closeProposalLetter = useCallback(() => {
+        if (proposalAudioRef.current) {
+            proposalAudioRef.current.pause();
+            proposalAudioRef.current = null;
+        }
+        setShowProposalLetter(false);
+    }, []);
+
+    const closeProposalQuiz = useCallback(() => {
+        setShowProposalQuiz(false);
+        setProposalPassword('');
+        setProposalError('');
+        if (proposalAudioRef.current) {
+            proposalAudioRef.current.pause();
+            proposalAudioRef.current = null;
+        }
+    }, []);
+
+    const handleProposalSubmit = useCallback(() => {
+        setProposalError('');
+        const answer = proposalPassword.trim();
+        const yyyymmdd = /^(19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/;
+        if (!yyyymmdd.test(answer)) {
+            setProposalError('20200101 형식으로 입력해야해용.');
+            return;
+        }
+        const answerLower = answer;
+        const correct = PROPOSAL_ANSWER.trim();
+        if (answerLower !== correct) {
+            setProposalError("역시나 기억력이 Short하군요! 그날은 지니의 생일이었습니당");
+            return;
+        }
+        setShowProposalQuiz(false);
+        setProposalPassword('');
+        setProposalError('');
+        setShowProposalLetter(true);
+        try {
+            const audio = new Audio(PROPOSAL_MUSIC_URL);
+            audio.loop = true;
+            proposalAudioRef.current = audio;
+            audio.play().catch(() => {});
+        } catch {
+            // no-op
+        }
+    }, [proposalPassword]);
+
+    useEffect(() => {
+        const preload = new Audio(PROPOSAL_MUSIC_URL);
+        preload.load();
+    }, []);
+
     useEffect(() => {
         const meta = document.querySelector('meta[name="theme-color"]');
         if (meta) {
             meta.setAttribute('content', '#FFFEF2');
         }
-
         requestAnimationFrame(() => {
             setAnimationClass('scale-100 opacity-100');
         });
-
         return () => {
             if (meta) {
                 meta.setAttribute('content', '#fdf2f8');
@@ -89,7 +238,11 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                if (showProfileModal) {
+                if (showProposalLetter) {
+                    closeProposalLetter();
+                } else if (showProposalQuiz) {
+                    closeProposalQuiz();
+                } else if (showProfileModal) {
                     setShowProfileModal(false);
                 } else if (currentView === 'CHAT_ROOM') {
                     setCurrentView('LIST');
@@ -100,7 +253,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [onClose, currentView, showProfileModal]);
+    }, [onClose, currentView, showProfileModal, showProposalQuiz, showProposalLetter, closeProposalLetter, closeProposalQuiz]);
 
     // Data - Using the same data
     const profiles: MessageProfile[] = [
@@ -194,6 +347,43 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         setCurrentView('CHAT_ROOM');
     };
 
+    const handleSiwooRowSwipeStart = useCallback((clientX: number) => {
+        swipeStartX.current = clientX;
+        swipeStartOffset.current = siwooRowSwipeOffset;
+    }, [siwooRowSwipeOffset]);
+
+    const handleSiwooRowSwipeMove = useCallback((clientX: number) => {
+        const delta = clientX - swipeStartX.current;
+        const next = Math.min(0, Math.max(-SWIPE_ACTION_WIDTH, swipeStartOffset.current + delta));
+        swipeCurrentOffset.current = next;
+        setSiwooRowSwipeOffset(next);
+    }, []);
+
+    const handleSiwooRowSwipeEnd = useCallback((e?: React.PointerEvent) => {
+        const current = swipeCurrentOffset.current;
+        const threshold = SWIPE_ACTION_WIDTH / 2;
+        const wasRevealed = current < -threshold;
+        if (wasRevealed && e) {
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            if (hiddenMessageButtonRef.current && (el === hiddenMessageButtonRef.current || hiddenMessageButtonRef.current.contains(el as Node))) {
+                setSiwooRowSwipeOffset(0);
+                setShowProposalQuiz(true);
+                return;
+            }
+        }
+        if (wasRevealed) {
+            setSiwooRowSwipeOffset(-SWIPE_ACTION_WIDTH);
+        } else {
+            setSiwooRowSwipeOffset(0);
+        }
+    }, []);
+
+    const handleOpenHiddenMessage = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        setSiwooRowSwipeOffset(0);
+        setShowProposalQuiz(true);
+    }, []);
+
     // Render List
     const renderList = () => (
         <div className="flex-1 overflow-y-auto bg-[#FFFEF2] min-h-0">
@@ -215,23 +405,60 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                     <span className="text-lg font-bold text-black">대화</span>
                 </div>
                 <div
-                    className="flex items-center px-4 py-2 tall:py-3 taller:py-4 active:bg-[#f0f0e0] transition-colors cursor-pointer"
-                    onClick={() => handleRowClick(profiles[0])}
+                    className="overflow-hidden w-full"
+                    onPointerDown={(e) => {
+                        if (e.button !== 0) return;
+                        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+                        handleSiwooRowSwipeStart(e.clientX);
+                    }}
+                    onPointerMove={(e) => {
+                        if (e.buttons !== 1) return;
+                        handleSiwooRowSwipeMove(e.clientX);
+                    }}
+                    onPointerUp={(e) => {
+                        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+                        handleSiwooRowSwipeEnd(e);
+                    }}
+                    onPointerCancel={(e) => {
+                        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+                        handleSiwooRowSwipeEnd(e);
+                    }}
                 >
                     <div
-                        className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
-                        onClick={(e) => handleProfileClick(e, profiles[0])}
+                        className="flex transition-transform duration-200 ease-out"
+                        style={{
+                            width: `calc(100% + ${SWIPE_ACTION_WIDTH}px)`,
+                            transform: `translateX(${siwooRowSwipeOffset}px)`,
+                        }}
                     >
-                        <ProfileAvatar
-                            src={profiles[0].thumbnailUrl || profiles[0].avatarUrl}
-                            alt={profiles[0].name}
-                        />
-                    </div>
-                    <div className="ml-4 tall:ml-5 flex-1 min-w-0">
-                        <div className="flex justify-between items-baseline mb-1">
-                            <span className="text-lg tall:text-xl taller:text-2xl font-bold text-black truncate">{profiles[0].name}</span>
+                        <div
+                            className="flex items-center px-4 py-2 tall:py-3 taller:py-4 active:bg-[#f0f0e0] transition-colors cursor-pointer flex-[1_1_0] min-w-0"
+                            onClick={() => handleRowClick(profiles[0])}
+                        >
+                            <div
+                                className="relative w-14 h-14 tall:w-16 tall:h-16 taller:w-20 taller:h-20 rounded-full bg-[#D0F0FF] flex-shrink-0 cursor-pointer overflow-hidden border-2 border-black"
+                                onClick={(e) => handleProfileClick(e, profiles[0])}
+                            >
+                                <ProfileAvatar
+                                    src={profiles[0].thumbnailUrl || profiles[0].avatarUrl}
+                                    alt={profiles[0].name}
+                                />
+                            </div>
+                            <div className="ml-4 tall:ml-5 flex-1 min-w-0">
+                                <div className="flex justify-between items-baseline mb-1">
+                                    <span className="text-lg tall:text-xl taller:text-2xl font-bold text-black truncate">{profiles[0].name}</span>
+                                </div>
+                                <p className="text-gray-500 text-sm tall:text-base taller:text-lg truncate pr-4">{profiles[0].lastMessage}</p>
+                            </div>
                         </div>
-                        <p className="text-gray-500 text-sm tall:text-base taller:text-lg truncate pr-4">{profiles[0].lastMessage}</p>
+                        <button
+                            ref={hiddenMessageButtonRef}
+                            type="button"
+                            className="flex-shrink-0 w-[100px] min-w-[100px] h-full min-h-[72px] flex items-center justify-center bg-[#EEFF6E] text-black font-bold text-sm border-l-2 border-black/10 active:bg-[#E5F55D]"
+                            onClick={handleOpenHiddenMessage}
+                        >
+                            For You
+                        </button>
                     </div>
                 </div>
             </div>
@@ -398,6 +625,43 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
         );
     };
 
+    const renderProposalQuizModal = () => {
+        if (!showProposalQuiz) return null;
+        return (
+            <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => closeProposalQuiz()}>
+                <div className="bg-[#FFFEF2] w-[90%] max-w-sm rounded-3xl p-6 shadow-2xl border-2 border-black/10" onClick={e => e.stopPropagation()}>
+                    <h3 className="text-lg font-bold text-center mb-4 text-black">비밀번호를 입력해주세요</h3>
+                    <p className="text-sm text-gray-600 text-center mb-4 whitespace-pre-line">{PROPOSAL_QUIZ}</p>
+                    <input
+                        type="text"
+                        value={proposalPassword}
+                        onChange={e => { setProposalPassword(e.target.value); setProposalError(''); }}
+                        placeholder="정답 입력"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        maxLength={8}
+                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#EEFF6E] focus:outline-none text-black placeholder-gray-400"
+                    />
+                    {proposalError ? <p className="text-red-500 text-sm mt-2">{proposalError}</p> : null}
+                    <div className="flex gap-2 mt-4">
+                        <button
+                            className="flex-1 py-3 rounded-full border-2 border-black bg-white font-bold active:bg-gray-100"
+                            onClick={closeProposalQuiz}
+                        >
+                            닫기
+                        </button>
+                        <button
+                            className="flex-1 py-3 rounded-full border-2 border-black bg-[#EEFF6E] font-bold active:bg-[#E5F55D]"
+                            onClick={handleProposalSubmit}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
             {/* Backdrop */}
@@ -409,7 +673,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
 
             {/* Modal Container */}
             <div
-                className={`relative w-full h-full md:max-w-md md:max-h-[85vh] bg-[#FFFEF2] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 ease-spring ${animationClass}`}
+                className={`relative w-full h-full md:max-w-md md:h-[85vh] md:max-h-[85vh] bg-[#FFFEF2] md:rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 ease-spring ${animationClass}`}
                 style={{ pointerEvents: 'auto', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
                 {/* Views */}
@@ -419,6 +683,8 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ onClose, isClosing }) =
                 </div>
 
                 {renderProfileModal()}
+                {renderProposalQuizModal()}
+                {showProposalLetter && <ProposalLetterView letterContent={PROPOSAL_LETTER} onClose={closeProposalLetter} />}
             </div>
         </div>
     );
