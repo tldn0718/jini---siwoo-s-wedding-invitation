@@ -78,7 +78,7 @@ Will you merry me?
 
 지니의 시우가.`;
 
-const SCROLL_DURATION_MS = 120000;
+const SCROLL_DURATION_MS = 180000;
 function letterScrollEase(t: number): number {
     if (t <= 0) return 0;
     if (t >= 1) return 1;
